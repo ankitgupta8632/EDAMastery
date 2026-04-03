@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "defaultMode": "bypassPermissions",
+    "allow": [
+      "Bash",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "npm run *",
+      "npx prisma *",
+      "npx shadcn@latest *",
+      "npx tsx scripts/*",
+      "/usr/local/bin/npm *",
+      "/usr/local/bin/npx *",
+      "python scripts/run.py *",
+      "curl http://localhost:*",
+      "lsof -i :*",
+      "kill *"
+    ]
+  }
+}

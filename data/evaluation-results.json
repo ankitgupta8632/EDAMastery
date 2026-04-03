@@ -1,0 +1,713 @@
+{
+  "results": [
+    {
+      "lessonId": "cmniu5aii0001kkfzvk108s3c",
+      "lessonTitle": "What is Digital Design?",
+      "moduleId": "digital-design",
+      "moduleName": "Digital Design",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "beginner",
+      "scores": {
+        "clarity": 88,
+        "engagement": 85,
+        "protium_relevance": 92,
+        "code_quality": 87,
+        "software_analogies": 95,
+        "emotional_resonance": 90,
+        "difficulty_calibration": 83
+      },
+      "average": 89,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson clearly explains complex concepts using familiar software analogies, making digital design accessible. The progression from basic concepts to more complex ones is logical and well-structured.",
+        "engagement": "The opening scenario about feeling lost in Protium meetings is relatable and hooks me immediately. The mix of code examples and practical explanations keeps me engaged throughout.",
+        "protium_relevance": "Excellent connection to daily Protium work - the resource utilization reports, timing closure, and compilation messages are exactly what I see but don't fully understand. The dedicated Protium section is particularly valuable.",
+        "code_quality": "The Verilog examples are clean and well-commented, with good parallels to software concepts. The code progressively builds complexity appropriately for a beginner lesson.",
+        "software_analogies": "Outstanding use of software analogies - pure functions vs stateful objects, event loops, and the comparison table perfectly bridge my existing knowledge to hardware concepts.",
+        "emotional_resonance": "The \"Meeting Confidence Boost\" section directly addresses my imposter syndrome fears and gives me specific phrases I could actually use in meetings. This makes me feel empowered rather than intimidated.",
+        "difficulty_calibration": "Good beginner level with appropriate depth. The practice challenge could use a bit more scaffolding, but overall the pacing works well for someone with my background."
+      },
+      "topIssues": [],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:22:26.939Z"
+    },
+    {
+      "lessonId": "cmniu5aij0003kkfzh0tgpskh",
+      "lessonTitle": "Combinational Logic Gates",
+      "moduleId": "digital-design",
+      "moduleName": "Digital Design",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "beginner",
+      "scores": {
+        "clarity": 88,
+        "engagement": 85,
+        "protium_relevance": 92,
+        "code_quality": 90,
+        "software_analogies": 87,
+        "emotional_resonance": 83,
+        "difficulty_calibration": 86
+      },
+      "average": 87,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson clearly explains concepts with good progression from simple gates to complex circuits. The truth tables and code examples are well-formatted and easy to follow, though some sections could be more concise.",
+        "engagement": "The opening scenario with LUT utilization immediately grabbed my attention, and the software analogies (pure functions, if-statements) kept me engaged. The practice challenge was a nice touch, though the lesson feels a bit long for busy schedule.",
+        "protium_relevance": "Excellent connection to daily work - explaining LUT counts in compilation reports, timing closure issues, and debug probe placement makes this directly applicable. The Protium Note section perfectly bridges theory to practice.",
+        "code_quality": "Verilog examples are clean, well-commented, and demonstrate proper syntax. The progression from simple gates to full adder shows realistic complexity growth that matches my development experience.",
+        "software_analogies": "The pure functions analogy is spot-on and the if-statement comparison for multiplexers really clicked. Could use more analogies for decoders and the full adder example.",
+        "emotional_resonance": "The \"Meeting Confidence Boost\" section addresses my imposter syndrome well and gives me concrete phrases to use. Felt empowered by understanding those mysterious LUT numbers in reports.",
+        "difficulty_calibration": "Good beginner level with appropriate complexity growth. Truth tables and simple examples work well, though the full adder might be slightly advanced for absolute beginners to digital design."
+      },
+      "topIssues": [],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:22:41.122Z"
+    },
+    {
+      "lessonId": "cmniu5aik0005kkfzazbe25f6",
+      "lessonTitle": "Sequential Logic & Flip-Flops",
+      "moduleId": "digital-design",
+      "moduleName": "Digital Design",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "beginner",
+      "scores": {
+        "clarity": 88,
+        "engagement": 85,
+        "protium_relevance": 92,
+        "code_quality": 87,
+        "software_analogies": 91,
+        "emotional_resonance": 89,
+        "difficulty_calibration": 86
+      },
+      "average": 88,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson clearly explains concepts with good progression from simple to complex. The distinction between combinational and sequential logic is well-articulated, and the setup/hold timing explanation is particularly clear for a software engineer.",
+        "engagement": "Strong opening with the race condition analogy immediately hooks me. The \"meeting confidence boost\" section is motivating, and the mental walkthrough challenge keeps me actively engaged throughout.",
+        "protium_relevance": "Excellent connection to my daily work - the Protium Note section brilliantly explains why timing closure matters and how register retiming/pipeline insertion actually work. This transforms abstract concepts into concrete debugging scenarios I face.",
+        "code_quality": "Verilog examples are clean and well-commented, progressing logically from simple D flip-flop to more complex register examples. The C++ FlipFlop class analogy is particularly effective for bridging to familiar territory.",
+        "software_analogies": "Outstanding analogies throughout - race conditions, synchronized access, pure vs stateful functions, and database transaction commits. The FlipFlop class mental model perfectly bridges hardware to software concepts I already understand.",
+        "emotional_resonance": "The \"meeting confidence boost\" section directly addresses my imposter syndrome and gives me concrete talking points. I genuinely feel more equipped to participate in design reviews after reading this.",
+        "difficulty_calibration": "Well-calibrated for a software engineer new to hardware - introduces timing concepts without overwhelming detail, but provides enough depth to be useful. The 15-minute target feels accurate for the content depth."
+      },
+      "topIssues": [],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:22:54.273Z"
+    },
+    {
+      "lessonId": "cmniu5aik0007kkfzj6u1szgj",
+      "lessonTitle": "Finite State Machines",
+      "moduleId": "digital-design",
+      "moduleName": "Digital Design",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "intermediate",
+      "scores": {
+        "clarity": 85,
+        "engagement": 82,
+        "protium_relevance": 92,
+        "code_quality": 88,
+        "software_analogies": 90,
+        "emotional_resonance": 80,
+        "difficulty_calibration": 78
+      },
+      "average": 85,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson clearly explains Moore vs Mealy concepts and provides good code examples, but the state encoding table could be clearer about when to use each type, and some sections feel dense for a 15-minute read.",
+        "engagement": "The opening debugging scenario hooks me immediately, and the mental exercises are engaging. However, some middle sections read more like documentation than a story-driven lesson.",
+        "protium_relevance": "Excellent connection to my daily work - the compilation timing violations, multi-FPGA partitioning, and protocol debugging scenarios directly map to challenges I face with Protium designs.",
+        "code_quality": "The Verilog examples are well-structured and demonstrate best practices clearly. The separation of concerns in FSM design is particularly well-illustrated with practical code patterns.",
+        "software_analogies": "Outstanding analogies - comparing FSMs to game state managers and TCP stacks immediately clicked for me. The parallel execution differences are well-explained for someone coming from sequential software.",
+        "emotional_resonance": "The \"meeting confidence boost\" section directly addresses my imposter syndrome, and I can envision using this knowledge in design reviews. Could be stronger on the personal growth narrative.",
+        "difficulty_calibration": "Mostly well-calibrated for intermediate level, but jumps quickly from basic concepts to complex synthesis considerations. The practice challenge might be too advanced without more scaffolding."
+      },
+      "topIssues": [
+        "Information density too high for 15-minute target - feels like 20-25 minutes of material",
+        "The difficulty ramps up too quickly in the state encoding section without sufficient intermediate steps",
+        "Some critical debugging scenarios mentioned but not fully explored (like the multi-FPGA partitioning challenges)"
+      ],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:23:10.872Z"
+    },
+    {
+      "lessonId": "cmniu5ail0009kkfzxt8hgf3m",
+      "lessonTitle": "Clock Domains & Metastability",
+      "moduleId": "digital-design",
+      "moduleName": "Digital Design",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "intermediate",
+      "scores": {
+        "clarity": 88,
+        "engagement": 85,
+        "protium_relevance": 92,
+        "code_quality": 87,
+        "software_analogies": 91,
+        "emotional_resonance": 89,
+        "difficulty_calibration": 83
+      },
+      "average": 88,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson clearly explains metastability and CDC concepts with good progression from problem to solutions. The software analogies help bridge the gap, though some technical sections could be slightly more concise.",
+        "engagement": "The opening scenario with Protium compilation warnings immediately hooks me, and the mental models keep me engaged. However, some of the longer code examples feel dense for a busy parent learning during short breaks.",
+        "protium_relevance": "Excellent connection to my daily work - the opening scenario perfectly matches what I see in compilation reports. The dedicated Protium section addresses multi-FPGA partitioning challenges I actually face.",
+        "code_quality": "SystemVerilog examples are well-structured and clearly commented. The progression from bad to good examples effectively shows the problems and solutions, though some examples could be more concise.",
+        "software_analogies": "The IPC analogy is spot-on - comparing CDC to inter-process communication with different execution schedules perfectly matches my mental model. The threading/race condition parallel also resonates strongly.",
+        "emotional_resonance": "The \"meeting confidence boost\" section directly addresses my imposter syndrome fears and gives me concrete responses I could actually use. The practice challenge makes me feel like I'm building real expertise.",
+        "difficulty_calibration": "Generally well-calibrated for intermediate level, though the MTBF calculation section feels slightly too theoretical. The quiz questions are appropriately challenging without being overwhelming."
+      },
+      "topIssues": [
+        "Some code examples are quite long for mobile/commute learning - could benefit from more concise illustrations",
+        "The MTBF analysis section feels overly mathematical for the practical focus of the lesson"
+      ],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:23:25.710Z"
+    },
+    {
+      "lessonId": "cmniu5ail000bkkfzqc9cn93c",
+      "lessonTitle": "Synchronous Design Principles",
+      "moduleId": "digital-design",
+      "moduleName": "Digital Design",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "intermediate",
+      "scores": {
+        "clarity": 88,
+        "engagement": 85,
+        "protium_relevance": 92,
+        "code_quality": 90,
+        "software_analogies": 94,
+        "emotional_resonance": 87,
+        "difficulty_calibration": 83
+      },
+      "average": 88,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson explains complex concepts clearly with good structure and logical progression. The SystemVerilog examples are well-commented and show both good/bad patterns effectively.",
+        "engagement": "Opens with a relatable Protium failure scenario that immediately hooks attention. The writing style is conversational and maintains interest throughout, though some middle sections feel slightly dense.",
+        "protium_relevance": "Excellent integration of Protium context throughout, especially the dedicated section explaining how synchronous design principles directly impact multi-FPGA partitioning and timing closure challenges I face daily.",
+        "code_quality": "SystemVerilog examples are accurate, realistic, and demonstrate concepts effectively. The progression from simple to complex examples helps build understanding systematically.",
+        "software_analogies": "Outstanding analogies connecting clock edges to critical sections, combinational logic to pure functions, and timing violations to race conditions. These mappings genuinely helped me understand the hardware concepts.",
+        "emotional_resonance": "The opening scenario captures my frustration perfectly, and the \"Meeting Confidence Boost\" section directly addresses my imposter syndrome. Makes me feel like I can actually contribute to timing discussions.",
+        "difficulty_calibration": "Appropriate intermediate level with good scaffolding from basics to advanced patterns. Could use slightly more gradual ramp-up in the middle sections where multiple concepts are introduced quickly."
+      },
+      "topIssues": [],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:23:38.509Z"
+    },
+    {
+      "lessonId": "cmniu5aim000dkkfzw9usv8mx",
+      "lessonTitle": "Verilog Basics: Modules & Ports",
+      "moduleId": "verilog",
+      "moduleName": "Verilog",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "beginner",
+      "scores": {
+        "clarity": 88,
+        "engagement": 85,
+        "protium_relevance": 92,
+        "code_quality": 83,
+        "software_analogies": 90,
+        "emotional_resonance": 87,
+        "difficulty_calibration": 80
+      },
+      "average": 86,
+      "passing": true,
+      "notes": {
+        "clarity": "The progression from simple concepts to complex hierarchies is well-structured, and the software analogies make Verilog concepts immediately accessible. Some technical details could be clearer (like the reg vs wire distinction).",
+        "engagement": "The opening hook with the compilation report scenario immediately grabs attention, and the \"Practice Challenge\" keeps me actively thinking. The writing style feels conversational and maintains interest throughout.",
+        "protium_relevance": "Excellent connection to my daily work - understanding hierarchical paths in compilation reports, partitioning decisions, and debug probe insertion directly addresses my pain points. The Protium Note section is particularly valuable.",
+        "code_quality": "Code examples are clean and well-commented, progressing logically from simple gates to realistic modules. The counter example could benefit from more explanation of the always block syntax.",
+        "software_analogies": "The mental mapping table is brilliant - it gives me concrete anchors to understand Verilog concepts through my C++ expertise. The class/object analogy consistently helps throughout.",
+        "emotional_resonance": "The \"Meeting Confidence Boost\" section directly addresses my imposter syndrome fears and gives me specific talking points. I can already imagine feeling more confident in design reviews.",
+        "difficulty_calibration": "Good beginner level, but the always block syntax and some concurrent execution concepts are introduced without enough explanation. Could use more scaffolding for complete hardware newcomers."
+      },
+      "topIssues": [
+        "The always block in the counter example introduces clocking concepts without adequate explanation",
+        "The distinction between reg and wire needs clearer explanation beyond the brief analogy",
+        "The concurrent execution concept (\"all running simultaneously, all the time\") is mentioned but not fully explored"
+      ],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:23:52.713Z"
+    },
+    {
+      "lessonId": "cmniu5ain000fkkfze0pj22rs",
+      "lessonTitle": "Data Types & Operators",
+      "moduleId": "verilog",
+      "moduleName": "Verilog",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "beginner",
+      "scores": {
+        "clarity": 85,
+        "engagement": 78,
+        "protium_relevance": 92,
+        "code_quality": 88,
+        "software_analogies": 90,
+        "emotional_resonance": 82,
+        "difficulty_calibration": 75
+      },
+      "average": 84,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson explains concepts clearly with good progression from basic to advanced topics. Some sections could be more concise, and the bit indexing examples need minor corrections.",
+        "engagement": "Good use of code examples and analogies, but feels somewhat dense for a 12-minute read. The practice challenge helps engagement, though more interactive elements would improve it.",
+        "protium_relevance": "Excellent connection to Protium throughout - from the opening compilation report hook to detailed explanations of multi-FPGA partitioning and debugging scenarios that directly relate to my daily work.",
+        "code_quality": "Code examples are well-structured and realistic. Minor issues with some bit indexing calculations in the quiz, but overall demonstrates good Verilog practices.",
+        "software_analogies": "Excellent job connecting hardware concepts to familiar software patterns like computed properties, class variables, and array operations. The mental model table is particularly helpful.",
+        "emotional_resonance": "Strong opening that addresses my imposter syndrome directly, and the \"Meeting Confidence Boost\" section gives me concrete phrases to use with colleagues. Makes me feel more capable.",
+        "difficulty_calibration": "Appropriate for beginner level but could be overwhelming in one sitting. The progression from basic types to complex operators might benefit from being split into smaller chunks."
+      },
+      "topIssues": [
+        "Quiz question calculation errors (Q2/Q6) undermine trust in the content accuracy",
+        "Lesson density - 12 minutes feels optimistic for this amount of material",
+        "Some explanations could be more concise without losing clarity"
+      ],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:24:08.922Z"
+    },
+    {
+      "lessonId": "cmniu5ain000hkkfzt2qu3wfd",
+      "lessonTitle": "Combinational Modeling with assign",
+      "moduleId": "verilog",
+      "moduleName": "Verilog",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "beginner",
+      "scores": {
+        "clarity": 85,
+        "engagement": 78,
+        "protium_relevance": 92,
+        "code_quality": 88,
+        "software_analogies": 90,
+        "emotional_resonance": 82,
+        "difficulty_calibration": 80
+      },
+      "average": 85,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson builds concepts logically from simple gates to complex expressions with clear code examples. The software analogies (spreadsheets, reactive properties) help bridge the knowledge gap effectively.",
+        "engagement": "The opening hook with Protium compilation logs is compelling and the practice challenge keeps me engaged. However, some sections feel a bit lecture-heavy without enough interactive elements.",
+        "protium_relevance": "Excellent connection to my daily work - explains why I see thousands of assign statements in netlists and how they relate to FPGA mapping. The timing path discussions directly address my imposter syndrome in design meetings.",
+        "code_quality": "Code examples are realistic and well-commented, progressing from simple to complex appropriately. The traffic light example is particularly well-structured and relatable.",
+        "software_analogies": "Outstanding analogies to JavaScript computed properties, Excel formulas, and pure functions. These really help me understand the \"always active\" nature of assign statements through familiar concepts.",
+        "emotional_resonance": "The \"Meeting Confidence Boost\" section directly addresses my imposter syndrome and gives me concrete phrases I can use. Feels like it genuinely prepares me for real work scenarios.",
+        "difficulty_calibration": "Good progression from basic concepts to more complex examples. The practice challenge is appropriately challenging without being overwhelming for someone learning during a baby's nap."
+      },
+      "topIssues": [],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:24:22.027Z"
+    },
+    {
+      "lessonId": "cmniu5aio000jkkfz2a6mglt8",
+      "lessonTitle": "Sequential Modeling with always",
+      "moduleId": "verilog",
+      "moduleName": "Verilog",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "intermediate",
+      "scores": {
+        "clarity": 88,
+        "engagement": 82,
+        "protium_relevance": 94,
+        "code_quality": 90,
+        "software_analogies": 85,
+        "emotional_resonance": 87,
+        "difficulty_calibration": 78
+      },
+      "average": 86,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson does an excellent job explaining blocking vs non-blocking assignments and provides clear code examples. The progression from basic concepts to advanced patterns is logical and well-structured.",
+        "engagement": "The opening scenario about debugging Protium compilation issues immediately hooks me into the content. The mental exercise with the code challenge keeps me actively thinking, though some sections feel a bit dense.",
+        "protium_relevance": "Outstanding connection to my daily work - the Protium Note section directly explains how sequential logic maps to FPGA resources and affects compilation, partitioning, and debugging. This makes the abstract concepts immediately practical.",
+        "code_quality": "Code examples are well-commented, syntactically correct, and progress from simple to complex appropriately. The line-by-line breakdown of the counter example is particularly helpful for understanding the mechanics.",
+        "software_analogies": "The event handler analogy between software button clicks and hardware clock edges is intuitive and helps me understand the scheduled vs immediate update difference. Could use more analogies throughout the lesson.",
+        "emotional_resonance": "The \"Meeting Confidence Boost\" section directly addresses my imposter syndrome by giving me specific talking points for design reviews. The opening scenario makes me feel seen as someone debugging compilation issues.",
+        "difficulty_calibration": "Generally appropriate, but the state machine example and clock domain crossing section feel like they jump complexity levels quickly. The mental exercise is good but could use the answer provided in the lesson."
+      },
+      "topIssues": [
+        "The difficulty ramps up sharply in the Advanced Considerations section without enough scaffolding",
+        "The mental exercise challenge doesn't provide the answer, leaving me uncertain if I understood correctly",
+        "Some sections (like state machines) introduce concepts that haven't been built up sufficiently"
+      ],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:24:35.550Z"
+    },
+    {
+      "lessonId": "cmniu5aio000lkkfzv00ojq7k",
+      "lessonTitle": "Behavioral vs Structural Modeling",
+      "moduleId": "verilog",
+      "moduleName": "Verilog",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "intermediate",
+      "scores": {
+        "clarity": 88,
+        "engagement": 92,
+        "protium_relevance": 95,
+        "code_quality": 85,
+        "software_analogies": 94,
+        "emotional_resonance": 90,
+        "difficulty_calibration": 87
+      },
+      "average": 90,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson explains the behavioral vs structural distinction clearly using excellent software analogies (Python vs assembly, functional programming vs low-level). The code examples are well-chosen and the progression from concept to implementation is logical.",
+        "engagement": "The opening scenario about compilation time differences immediately grabbed my attention as a real Protium problem I'd encounter. The practice challenge and meeting confidence section make this feel directly applicable to my daily work.",
+        "protium_relevance": "Exceptional relevance - directly addresses compilation performance issues, multi-FPGA partitioning considerations, and customer debug scenarios I'd face. The Protium Note section ties everything together perfectly with specific platform implications.",
+        "code_quality": "Code examples are realistic and well-commented, showing clear contrast between approaches. The mixed modeling example effectively demonstrates real-world usage, though some structural examples could be slightly more detailed.",
+        "software_analogies": "Outstanding analogies throughout - functional vs assembly programming, high-level vs systems programming, Python sort() vs explicit algorithm choice. These analogies make the hardware concepts immediately accessible to my software background.",
+        "emotional_resonance": "The meeting confidence section directly addresses my imposter syndrome concerns and gives me concrete talking points. The lesson makes me feel like I can meaningfully contribute to timing and synthesis discussions.",
+        "difficulty_calibration": "Well-calibrated for my intermediate level - assumes software expertise while building hardware knowledge systematically. Could benefit from one more complex example to fully bridge the gap to expert-level discussions."
+      },
+      "topIssues": [],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:24:50.066Z"
+    },
+    {
+      "lessonId": "cmniu5aip000nkkfz4mhdfj4v",
+      "lessonTitle": "Writing Testbenches",
+      "moduleId": "verilog",
+      "moduleName": "Verilog",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "intermediate",
+      "scores": {
+        "clarity": 88,
+        "engagement": 85,
+        "protium_relevance": 92,
+        "code_quality": 87,
+        "software_analogies": 95,
+        "emotional_resonance": 89,
+        "difficulty_calibration": 83
+      },
+      "average": 88,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson clearly explains testbench concepts with good structure and progression. The software analogies help bridge the knowledge gap, though some SystemVerilog syntax details could be clearer for someone new to hardware.",
+        "engagement": "The opening scenario is compelling and the software testing analogies keep me engaged. The practical examples and code snippets maintain interest, though some sections feel dense with technical details.",
+        "protium_relevance": "Excellent connection to Protium work throughout, especially the final section explaining how testbenches relate to debug cycles and compilation efficiency. This directly addresses my daily challenges with long FPGA compilation times.",
+        "code_quality": "Code examples are well-structured and realistic. The progression from basic to advanced patterns is logical, though some complex SystemVerilog constructs might need more explanation for software engineers.",
+        "software_analogies": "Outstanding use of software testing analogies throughout—the comparison table between software testing and hardware testbenches is particularly helpful. These analogies make hardware concepts immediately accessible.",
+        "emotional_resonance": "The opening scenario perfectly captures my frustration with expensive debug cycles, and the \"Meeting Confidence Boost\" section directly addresses my imposter syndrome fears. I feel empowered to contribute meaningfully to verification discussions.",
+        "difficulty_calibration": "Generally well-calibrated for intermediate level, building from familiar software concepts. Some advanced SystemVerilog features (like interfaces and coverage) might be slightly challenging but remain followable with the good explanations."
+      },
+      "topIssues": [
+        "Some SystemVerilog syntax explanations could be more detailed for software engineers unfamiliar with hardware description languages",
+        "The advanced patterns section introduces several complex concepts rapidly without as much software analogy support",
+        "The practice challenge could benefit from a worked example or partial solution to guide thinking"
+      ],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:25:06.366Z"
+    },
+    {
+      "lessonId": "cmniu5aip000pkkfzprgji6m9",
+      "lessonTitle": "Common Verilog Pitfalls",
+      "moduleId": "verilog",
+      "moduleName": "Verilog",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "intermediate",
+      "scores": {
+        "clarity": 88,
+        "engagement": 82,
+        "protium_relevance": 92,
+        "code_quality": 85,
+        "software_analogies": 90,
+        "emotional_resonance": 78,
+        "difficulty_calibration": 86
+      },
+      "average": 86,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson clearly explains each pitfall with concrete before/after code examples. The structure is logical and the explanations build well on each other, though some sections could be more concise.",
+        "engagement": "The opening scenario about LUT usage and timing issues immediately connects to real work problems. The practice challenge is engaging, though more interactive elements throughout would help maintain attention.",
+        "protium_relevance": "Excellent connection to Protium throughout - the \"Protium Note\" section brilliantly ties each pitfall to specific compilation, partitioning, and debug challenges I'd actually face on the team.",
+        "code_quality": "Code examples are realistic and demonstrate the concepts well. The wrong/correct pattern is effective, though a few examples could benefit from more detailed comments explaining the synthesis implications.",
+        "software_analogies": "The \"Software Engineer's Mental Model\" section is outstanding - comparing blocking/non-blocking to threading concepts and combinational loops to infinite recursion really helps me understand the underlying issues.",
+        "emotional_resonance": "The lesson addresses imposter syndrome well by showing how my software background actually helps understand these concepts. The \"Meeting Confidence Boost\" section is particularly valuable for building confidence in EDA discussions.",
+        "difficulty_calibration": "The difficulty feels appropriate for intermediate level - builds on basic Verilog knowledge while introducing nuanced concepts. The progression from simple syntax issues to complex timing considerations works well."
+      },
+      "topIssues": [],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:25:19.883Z"
+    },
+    {
+      "lessonId": "cmniu5aiq000rkkfztlzzkohe",
+      "lessonTitle": "What is Logic Synthesis?",
+      "moduleId": "synthesis",
+      "moduleName": "Synthesis",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "beginner",
+      "scores": {
+        "clarity": 88,
+        "engagement": 82,
+        "protium_relevance": 92,
+        "code_quality": 75,
+        "software_analogies": 90,
+        "emotional_resonance": 85,
+        "difficulty_calibration": 87
+      },
+      "average": 86,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson clearly explains synthesis as \"hardware compilation\" and uses excellent step-by-step progression. Minor confusion around the netlist example which shows behavioral code rather than actual gate primitives.",
+        "engagement": "The opening scenario and practice challenge keep me engaged, though the middle sections feel a bit textbook-like. The software analogies help maintain interest throughout.",
+        "protium_relevance": "Excellent Protium-specific section explaining multi-FPGA partitioning, debug signal preservation, and large design challenges. This directly connects to my daily work compilation flows.",
+        "code_quality": "The RTL examples are clear and appropriate for beginners. However, the \"netlist output\" example is misleading since it's still behavioral Verilog rather than actual FPGA primitives.",
+        "software_analogies": "The compiler analogy table is brilliant and the constraint comparison to optimization flags really clicked. These analogies make hardware concepts immediately understandable.",
+        "emotional_resonance": "The \"meeting confidence boost\" section directly addresses my imposter syndrome fears. I genuinely feel more prepared to participate in synthesis discussions after reading this.",
+        "difficulty_calibration": "Perfect beginner level with good progression from basic concepts to more nuanced trade-offs. The quiz questions test understanding appropriately without being overwhelming."
+      },
+      "topIssues": [
+        "The netlist example is confusing - it shows behavioral Verilog instead of actual gate-level primitives, which undermines the key teaching point",
+        "The practice challenge asks me to think but doesn't provide the answer, leaving me uncertain if my reasoning was correct"
+      ],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:25:33.649Z"
+    },
+    {
+      "lessonId": "cmniu5air000tkkfzqh775fs7",
+      "lessonTitle": "Technology Libraries & Cell Selection",
+      "moduleId": "synthesis",
+      "moduleName": "Synthesis",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "intermediate",
+      "scores": {
+        "clarity": 85,
+        "engagement": 75,
+        "protium_relevance": 95,
+        "code_quality": 80,
+        "software_analogies": 90,
+        "emotional_resonance": 85,
+        "difficulty_calibration": 75
+      },
+      "average": 84,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson clearly explains technology libraries through strong software analogies (catalog of components, API for hardware). The progression from basic concepts to detailed examples works well, though some sections get dense with technical details.",
+        "engagement": "The opening scenario with Sarah is relatable, and the software analogies (hash map implementations, compiler optimization) keep me engaged. However, some middle sections feel more like reference material than active learning.",
+        "protium_relevance": "Excellent connection to daily Protium work — explains exactly why ASIC-to-FPGA performance gaps exist and gives me concrete talking points for customer conversations. The dedicated Protium section directly addresses my imposter syndrome concerns.",
+        "code_quality": "The SystemVerilog example is clean and relevant, showing realistic synthesis decisions. The pseudocode for cell selection process is helpful, though could use more concrete examples of the trade-off calculations.",
+        "software_analogies": "Outstanding use of familiar concepts — std::map vs unordered_map perfectly captures the cell selection trade-offs. The compiler optimization parallels make complex EDA concepts immediately understandable.",
+        "emotional_resonance": "Directly addresses my confidence issues with phrases like \"Meeting Confidence Boost\" and specific talking points. Makes me feel like I can actually contribute to technical discussions about performance differences.",
+        "difficulty_calibration": "Generally appropriate for my level, but some sections jump between basic explanations and advanced details. The practice challenge feels slightly too open-ended for someone still building foundational knowledge."
+      },
+      "topIssues": [
+        "The lesson occasionally gets bogged down in technical details (timing arcs, drive strengths) without enough context for why I should care about these specifics",
+        "The practice challenge is too abstract - I need more guided examples before tackling open-ended problems"
+      ],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:25:48.309Z"
+    },
+    {
+      "lessonId": "cmniu5ais000vkkfzpss1djaz",
+      "lessonTitle": "Optimization Goals: Area, Speed, Power",
+      "moduleId": "synthesis",
+      "moduleName": "Synthesis",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "intermediate",
+      "scores": {
+        "clarity": 85,
+        "engagement": 82,
+        "protium_relevance": 92,
+        "code_quality": 78,
+        "software_analogies": 95,
+        "emotional_resonance": 88,
+        "difficulty_calibration": 75
+      },
+      "average": 85,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson clearly explains the optimization triangle and trade-offs with good examples. Some sections like \"Optimization Algorithms in Action\" get a bit dense with technical details that could be streamlined.",
+        "engagement": "Opens strong with the relatable Protium debugging scenario. The compiler optimization analogy is brilliant and engaging. Loses some momentum in the middle sections with heavy technical content.",
+        "protium_relevance": "Excellent Protium integration throughout, especially the dedicated section explaining multi-FPGA partitioning challenges. The connection between synthesis optimization and Protium compilation issues is spot-on for my daily work.",
+        "code_quality": "Code examples effectively demonstrate trade-offs, but some are quite long and detailed. The SystemVerilog syntax is correct but might overwhelm someone with limited hardware background.",
+        "software_analogies": "Outstanding compiler optimization flag analogy (-Os, -O3, -Og) perfectly bridges my software experience to synthesis concepts. The profile-guided optimizer comparison is also excellent and immediately relatable.",
+        "emotional_resonance": "The opening scenario captures my exact frustrations with timing closure and FPGA utilization. The \"Meeting Confidence Boost\" section directly addresses my imposter syndrome concerns with practical conversation examples.",
+        "difficulty_calibration": "Generally appropriate but has some peaks of complexity, especially in the algorithm sections. The practice challenge is good but quite technical for someone still building EDA foundations."
+      },
+      "topIssues": [
+        "Some sections (particularly \"Optimization Algorithms in Action\") are too dense and technical for the intermediate level",
+        "The lesson is quite long for a 15-minute target - feels more like 20-25 minutes of content",
+        "Quiz questions, while technically correct, assume more hardware knowledge than the target user likely has"
+      ],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:26:03.893Z"
+    },
+    {
+      "lessonId": "cmniu5ais000xkkfzdb663e4d",
+      "lessonTitle": "Timing Constraints for Synthesis",
+      "moduleId": "synthesis",
+      "moduleName": "Synthesis",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "intermediate",
+      "scores": {
+        "clarity": 88,
+        "engagement": 85,
+        "protium_relevance": 92,
+        "code_quality": 87,
+        "software_analogies": 90,
+        "emotional_resonance": 83,
+        "difficulty_calibration": 79
+      },
+      "average": 86,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson clearly explains timing constraints with good structure and concrete examples. The SDC code examples are well-formatted and explained, though some concepts like setup/hold could use more detailed explanation.",
+        "engagement": "The opening scenario with Protium compilation reports immediately hooks my attention, and the relay race analogy makes timing concepts memorable. The practice challenge keeps me thinking actively throughout.",
+        "protium_relevance": "Excellent connection to my daily work - the opening compilation report example and detailed Protium section directly address scenarios I encounter. The multi-FPGA partitioning discussion is particularly valuable for understanding why my compiles fail.",
+        "code_quality": "SDC constraint examples are realistic and well-commented. The SystemVerilog code is clean and relevant, though could benefit from more complex examples showing real Protium-scale timing scenarios.",
+        "software_analogies": "The software analogies are excellent - comparing timing constraints to performance contracts and compiler optimization directives really clicked for me. The distributed systems/network latency comparison for I/O delays is particularly insightful.",
+        "emotional_resonance": "The \"Meeting Confidence Boost\" section directly addresses my imposter syndrome and gives me concrete phrases to use. However, it could be more encouraging about the learning curve - timing constraints are genuinely complex.",
+        "difficulty_calibration": "Mostly appropriate for intermediate level, but jumps quickly from basic concepts to complex multi-clock scenarios. The quiz questions are good, but more scaffolding between basic and advanced concepts would help."
+      },
+      "topIssues": [
+        "The difficulty ramps up too quickly - goes from basic clock definitions to complex multi-domain scenarios without enough intermediate examples",
+        "Some key concepts (setup/hold timing, slack calculation) are mentioned but not thoroughly explained for someone new to hardware timing"
+      ],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:26:18.969Z"
+    },
+    {
+      "lessonId": "cmniu5ait000zkkfz5xz2h6gn",
+      "lessonTitle": "Coding for Synthesis",
+      "moduleId": "synthesis",
+      "moduleName": "Synthesis",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "intermediate",
+      "scores": {
+        "clarity": 85,
+        "engagement": 78,
+        "protium_relevance": 92,
+        "code_quality": 88,
+        "software_analogies": 90,
+        "emotional_resonance": 82,
+        "difficulty_calibration": 75
+      },
+      "average": 84,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson clearly explains synthesis concepts with good structure and logical flow. The hardware vs. software thinking comparison is particularly helpful, though some technical explanations could be more precise.",
+        "engagement": "The pull request opening and software analogies keep me engaged, but the middle sections with dense code examples feel a bit dry. The practice challenge helps, but more interactive elements would boost engagement.",
+        "protium_relevance": "Excellent connection to daily Protium work throughout the lesson. The ending section explicitly ties synthesis quality to partitioning challenges, compilation failures, and customer issues I'd actually face.",
+        "code_quality": "Code examples are realistic and well-commented with clear good/bad comparisons. The SystemVerilog syntax appears correct and the examples effectively illustrate the concepts being taught.",
+        "software_analogies": "Outstanding analogies throughout - synthesis as optimizing compiler, latches as memory leaks, pipelining trade-offs. These really help me map hardware concepts to familiar software engineering patterns.",
+        "emotional_resonance": "The lesson addresses my imposter syndrome well with the \"Meeting Confidence Boost\" section giving me concrete responses for design reviews. Makes me feel more prepared to contribute meaningfully.",
+        "difficulty_calibration": "Mostly well-calibrated for intermediate level, but assumes some HDL familiarity I might not have. Could use more gentle introduction to SystemVerilog syntax before diving into complex examples."
+      },
+      "topIssues": [
+        "Some examples assume more HDL syntax knowledge than a software engineer might have",
+        "The middle sections with heavy code examples could use more varied presentation formats",
+        "The practice challenge doesn't provide immediate feedback or solution"
+      ],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:26:32.381Z"
+    },
+    {
+      "lessonId": "cmniu5ait0011kkfz425o8r1c",
+      "lessonTitle": "Reading Synthesis Reports",
+      "moduleId": "synthesis",
+      "moduleName": "Synthesis",
+      "phaseOrder": 1,
+      "phaseName": "Foundations",
+      "difficulty": "intermediate",
+      "scores": {
+        "clarity": 88,
+        "engagement": 85,
+        "protium_relevance": 92,
+        "code_quality": 82,
+        "software_analogies": 90,
+        "emotional_resonance": 87,
+        "difficulty_calibration": 79
+      },
+      "average": 86,
+      "passing": true,
+      "notes": {
+        "clarity": "The lesson clearly explains synthesis reports using effective software analogies (profiler, system monitoring). The structure flows logically from motivation to practical examples, though some sections could be more concise.",
+        "engagement": "The opening detective story scenario immediately hooks attention and the \"Sarah vs. you\" dynamic creates relatable tension. The practice challenge and real examples maintain engagement throughout.",
+        "protium_relevance": "Excellent Protium-specific section explaining multi-FPGA partitioning, debug probes, and cross-FPGA timing. This directly connects synthesis reports to daily Protium work challenges.",
+        "code_quality": "Good mix of realistic synthesis output examples and SystemVerilog code snippets. The report formatting is authentic, though some code examples could show more complex Protium-relevant scenarios.",
+        "software_analogies": "Outstanding analogies throughout—profiler output, memory usage reports, system monitoring dashboards. These consistently help translate hardware concepts into familiar software engineering terms.",
+        "emotional_resonance": "The opening scenario captures the imposter syndrome feeling perfectly, and the \"Meeting Confidence Boost\" section directly addresses the fear of EDA meetings. Makes learning feel empowering rather than intimidating.",
+        "difficulty_calibration": "Generally well-calibrated for intermediate level, but some sections jump complexity levels quickly. The quiz questions are appropriately challenging, though the lesson could use more scaffolding in dense technical sections."
+      },
+      "topIssues": [
+        "Some technical sections (especially timing analysis) pack too much information densely without enough progressive explanation",
+        "The practice challenge could be more interactive with guided step-by-step analysis",
+        "Missing concrete examples of how synthesis report insights translate to specific RTL code changes"
+      ],
+      "improvements": [],
+      "evaluatedAt": "2026-04-03T18:26:46.927Z"
+    }
+  ],
+  "summary": {
+    "totalLessons": 19,
+    "passing": 19,
+    "failing": 0,
+    "overallAverage": 86,
+    "dimensionAverages": {
+      "clarity": 87,
+      "engagement": 83,
+      "protium_relevance": 92,
+      "code_quality": 86,
+      "software_analogies": 91,
+      "emotional_resonance": 85,
+      "difficulty_calibration": 81
+    },
+    "weakestLessons": [
+      {
+        "title": "Data Types & Operators",
+        "avg": 84
+      },
+      {
+        "title": "Technology Libraries & Cell Selection",
+        "avg": 84
+      },
+      {
+        "title": "Coding for Synthesis",
+        "avg": 84
+      },
+      {
+        "title": "Finite State Machines",
+        "avg": 85
+      },
+      {
+        "title": "Combinational Modeling with assign",
+        "avg": 85
+      },
+      {
+        "title": "Optimization Goals: Area, Speed, Power",
+        "avg": 85
+      },
+      {
+        "title": "Verilog Basics: Modules & Ports",
+        "avg": 86
+      },
+      {
+        "title": "Sequential Modeling with always",
+        "avg": 86
+      },
+      {
+        "title": "Common Verilog Pitfalls",
+        "avg": 86
+      },
+      {
+        "title": "What is Logic Synthesis?",
+        "avg": 86
+      }
+    ]
+  }
+}
