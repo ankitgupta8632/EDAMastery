@@ -93,7 +93,7 @@ export default function DashboardPage() {
 
   if (!onboardingChecked) return (
     <div className="flex items-center justify-center py-20">
-      <div className="h-6 w-6 rounded-full border-2 border-indigo-200 border-t-indigo-600 animate-spin" />
+      <div className="h-6 w-6 rounded-full border-2 border-white/10 border-t-green-500 animate-spin" />
     </div>
   );
   if (showOnboarding) {
@@ -108,13 +108,13 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="mx-auto max-w-lg space-y-5 px-5 pt-6 pb-8">
+    <div className="mx-auto max-w-lg space-y-6 px-5 pt-6 pb-8">
 
       {/* Greeting */}
       <div>
-        <h1 className="text-[26px] font-bold tracking-tight text-slate-900">{greeting}</h1>
+        <h1 className="text-[26px] font-bold tracking-tight text-white">{greeting}</h1>
         {recommendation?.reason && (
-          <p className="mt-1 text-[15px] leading-relaxed text-slate-500">{recommendation.reason}</p>
+          <p className="mt-1 text-[15px] leading-relaxed text-white/50">{recommendation.reason}</p>
         )}
       </div>
 
@@ -123,38 +123,38 @@ export default function DashboardPage() {
 
       {/* Stats Row */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-2xl bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)]">
+        <div className="rounded-2xl bg-[#1a1a1a] border border-white/[0.06] p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50">
-              <BookOpen className="h-[18px] w-[18px] text-indigo-600" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06]">
+              <BookOpen className="h-[18px] w-[18px] text-green-400" />
             </div>
             <div>
-              <p className="text-[22px] font-bold leading-none text-slate-900">
+              <p className="text-[22px] font-bold leading-none text-white">
                 {nextLesson?.lessonsToday ?? 0}
               </p>
-              <p className="mt-0.5 text-[12px] text-slate-400">
+              <p className="mt-0.5 text-[12px] text-white/40">
                 lessons today
               </p>
             </div>
           </div>
         </div>
 
-        <div className="rounded-2xl bg-gradient-to-br from-orange-50 to-amber-50/80 p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)]">
+        <div className="rounded-2xl bg-[#1a1a1a] border border-white/[0.06] p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-100">
-              <Flame className="h-[18px] w-[18px] text-orange-500" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06]">
+              <Flame className="h-[18px] w-[18px] text-orange-400" />
             </div>
             <div>
-              <p className="text-[22px] font-bold leading-none text-slate-900">
+              <p className="text-[22px] font-bold leading-none text-white">
                 {streak?.currentStreak ?? 0}
               </p>
-              <p className="mt-0.5 text-[12px] text-slate-400">
+              <p className="mt-0.5 text-[12px] text-white/40">
                 day streak
               </p>
             </div>
           </div>
           {streak && streak.graceDaysUsed > 0 && (
-            <div className="mt-2 flex items-center gap-1 text-[11px] text-amber-600">
+            <div className="mt-2 flex items-center gap-1 text-[11px] text-amber-400/70">
               <Shield className="h-3 w-3" />
               {streak.graceDaysMax - streak.graceDaysUsed} grace days left
             </div>
@@ -164,7 +164,7 @@ export default function DashboardPage() {
 
       {/* Phase Progress */}
       <div>
-        <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wider text-slate-400">Your Progress</h2>
+        <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wider text-white/30">Your Progress</h2>
         <div className="grid grid-cols-4 gap-2.5">
           {(phases.length > 0 ? phases : [null, null, null, null]).map((phase, idx) => {
             const phaseKey = `phase-${idx + 1}` as keyof typeof PHASE_COLORS;
@@ -192,34 +192,25 @@ export default function DashboardPage() {
       {/* Quick Actions */}
       {nextLesson && !nextLesson.completed && (
         <div>
-          <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wider text-slate-400">Quick Start</h2>
+          <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wider text-white/30">Quick Start</h2>
           <div className="grid grid-cols-3 gap-2.5">
             <QuickAction
               href="/learn?mode=quick_win"
               icon={<Zap className="h-4 w-4" />}
               label="Quick Win"
               sublabel="2 min"
-              bgClass="bg-amber-50"
-              iconBgClass="bg-amber-100"
-              textClass="text-amber-700"
             />
             <QuickAction
               href="/learn?mode=baby_napping"
               icon={<Moon className="h-4 w-4" />}
               label="Deep Focus"
               sublabel="15 min"
-              bgClass="bg-indigo-50"
-              iconBgClass="bg-indigo-100"
-              textClass="text-indigo-700"
             />
             <QuickAction
               href="/learn?mode=commute"
               icon={<Headphones className="h-4 w-4" />}
               label="Commute"
               sublabel="15 min"
-              bgClass="bg-violet-50"
-              iconBgClass="bg-violet-100"
-              textClass="text-violet-700"
             />
           </div>
         </div>
@@ -229,8 +220,8 @@ export default function DashboardPage() {
       {reviews.length > 0 && (
         <div>
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-[13px] font-semibold uppercase tracking-wider text-slate-400">Up for Review</h2>
-            <Link href="/review" className="text-[12px] font-medium text-indigo-500">
+            <h2 className="text-[13px] font-semibold uppercase tracking-wider text-white/30">Up for Review</h2>
+            <Link href="/review" className="text-[12px] font-medium text-green-400">
               See all
             </Link>
           </div>
@@ -239,18 +230,18 @@ export default function DashboardPage() {
               <Link
                 key={item.id}
                 href="/review"
-                className="group flex items-center gap-3 rounded-2xl bg-white p-3.5 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] active:scale-[0.98] transition-transform duration-150"
+                className="group flex items-center gap-3 rounded-2xl bg-[#1a1a1a] border border-white/[0.06] p-3.5 active:scale-[0.98] transition-transform duration-150"
               >
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-50">
-                  <Clock className="h-4 w-4 text-slate-400" />
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/[0.06]">
+                  <Clock className="h-4 w-4 text-white/40" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-[14px] font-medium text-slate-800">
+                  <p className="truncate text-[14px] font-medium text-white/90">
                     {item.lessonTitle}
                   </p>
-                  <p className="text-[12px] text-slate-400">{item.moduleName}</p>
+                  <p className="text-[12px] text-white/40">{item.moduleName}</p>
                 </div>
-                <ChevronRight className="h-4 w-4 shrink-0 text-slate-300" />
+                <ChevronRight className="h-4 w-4 shrink-0 text-white/20" />
               </Link>
             ))}
           </div>
@@ -260,19 +251,19 @@ export default function DashboardPage() {
   );
 }
 
-/* ─── Continue Learning Hero ─────────────────────────────────────────────── */
+/* --- Continue Learning Hero ------------------------------------------------ */
 
 function ContinueLearningCard({ nextLesson }: { nextLesson: NextLessonData }) {
   if (nextLesson.completed) {
     return (
-      <div className="rounded-3xl bg-gradient-to-br from-emerald-500 to-teal-600 p-6 text-center shadow-lg shadow-emerald-200/40">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm">
-          <GraduationCap className="h-7 w-7 text-white" />
+      <div className="rounded-2xl bg-[#1a1a1a] border border-green-900/30 p-6 text-center">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-green-900/30">
+          <GraduationCap className="h-7 w-7 text-green-400" />
         </div>
         <h2 className="mt-4 text-xl font-bold text-white">
           You&apos;ve mastered EDA!
         </h2>
-        <p className="mt-1 text-sm text-white/70">
+        <p className="mt-1 text-sm text-white/50">
           All lessons completed. Keep reviewing to stay sharp!
         </p>
       </div>
@@ -280,82 +271,70 @@ function ContinueLearningCard({ nextLesson }: { nextLesson: NextLessonData }) {
   }
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-700 p-6 shadow-lg shadow-indigo-300/30">
-      {/* Subtle decorative circles */}
-      <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/5" />
-      <div className="pointer-events-none absolute -bottom-4 -left-4 h-20 w-20 rounded-full bg-white/5" />
-
-      <div className="relative">
-        <div className="flex items-center gap-2 mb-3">
-          <Sparkles className="h-3.5 w-3.5 text-indigo-300" />
-          <span className="text-[12px] font-medium tracking-wide text-indigo-200 uppercase">
-            {nextLesson.moduleName}
-          </span>
-        </div>
-        <h2 className="text-[20px] font-bold text-white leading-snug tracking-tight">
-          {nextLesson.title}
-        </h2>
-        {nextLesson.description && (
-          <p className="mt-2 text-[14px] leading-relaxed text-white/60 line-clamp-2">
-            {nextLesson.description}
-          </p>
-        )}
-        <div className="mt-3 flex items-center gap-4 text-[12px] text-white/50">
-          <span className="flex items-center gap-1">
-            <Clock className="h-3.5 w-3.5" />
-            {nextLesson.estimatedMinutes} min
-          </span>
-          {nextLesson.moduleProgress && (
-            <span>
-              {nextLesson.moduleProgress.completed} of {nextLesson.moduleProgress.total} lessons
-            </span>
-          )}
-        </div>
-        <Link href={`/learn/${nextLesson.moduleId}/${nextLesson.lessonId}`} className="block mt-5">
-          <button className="w-full rounded-2xl bg-white py-3.5 text-[15px] font-semibold text-indigo-700 shadow-sm active:scale-[0.98] transition-transform duration-150">
-            Continue Learning
-          </button>
-        </Link>
+    <div className="rounded-2xl bg-[#1a1a1a] border border-white/[0.06] p-6">
+      <div className="flex items-center gap-2 mb-3">
+        <Sparkles className="h-3.5 w-3.5 text-white/30" />
+        <span className="text-[12px] font-medium tracking-wide text-white/40 uppercase">
+          {nextLesson.moduleName}
+        </span>
       </div>
+      <h2 className="text-[20px] font-bold text-white leading-snug tracking-tight">
+        {nextLesson.title}
+      </h2>
+      {nextLesson.description && (
+        <p className="mt-2 text-[14px] leading-relaxed text-white/40 line-clamp-2">
+          {nextLesson.description}
+        </p>
+      )}
+      <div className="mt-3 flex items-center gap-4 text-[12px] text-white/30">
+        <span className="flex items-center gap-1">
+          <Clock className="h-3.5 w-3.5" />
+          {nextLesson.estimatedMinutes} min
+        </span>
+        {nextLesson.moduleProgress && (
+          <span>
+            {nextLesson.moduleProgress.completed} of {nextLesson.moduleProgress.total} lessons
+          </span>
+        )}
+      </div>
+      <Link href={`/learn/${nextLesson.moduleId}/${nextLesson.lessonId}`} className="block mt-5">
+        <button className="w-full rounded-2xl bg-green-600 py-3.5 text-[15px] font-semibold text-white active:scale-[0.98] transition-transform duration-150 hover:bg-green-500">
+          Continue Learning
+        </button>
+      </Link>
     </div>
   );
 }
 
-/* ─── Quick Action ────────────────────────────────────────────────────────── */
+/* --- Quick Action ---------------------------------------------------------- */
 
 function QuickAction({
   href,
   icon,
   label,
   sublabel,
-  bgClass,
-  iconBgClass,
-  textClass,
 }: {
   href: string;
   icon: React.ReactNode;
   label: string;
   sublabel: string;
-  bgClass: string;
-  iconBgClass: string;
-  textClass: string;
 }) {
   return (
     <Link href={href}>
-      <div className={`flex flex-col items-center gap-2 rounded-2xl ${bgClass} py-4 px-2 active:scale-[0.97] transition-transform duration-150`}>
-        <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${iconBgClass} ${textClass}`}>
+      <div className="flex flex-col items-center gap-2 rounded-2xl bg-[#1a1a1a] border border-white/[0.06] py-4 px-2 active:scale-[0.97] transition-transform duration-150">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06] text-white/60">
           {icon}
         </div>
         <div className="text-center">
-          <p className={`text-[12px] font-semibold ${textClass}`}>{label}</p>
-          <p className="text-[10px] text-slate-400">{sublabel}</p>
+          <p className="text-[12px] font-semibold text-white/70">{label}</p>
+          <p className="text-[10px] text-white/30">{sublabel}</p>
         </div>
       </div>
     </Link>
   );
 }
 
-/* ─── Progress Ring ───────────────────────────────────────────────────────── */
+/* --- Progress Ring --------------------------------------------------------- */
 
 function ProgressRing({
   percent,
@@ -376,12 +355,12 @@ function ProgressRing({
   const center = size / 2;
 
   const colorMap: Record<string, string> = {
-    "bg-indigo-500": "#6366f1",
-    "bg-violet-500": "#8b5cf6",
-    "bg-pink-500": "#ec4899",
-    "bg-amber-500": "#f59e0b",
+    "bg-emerald-500": "#34d399",
+    "bg-sky-500": "#38bdf8",
+    "bg-amber-500": "#fbbf24",
+    "bg-purple-500": "#a78bfa",
   };
-  const strokeColor = colorMap[accentClass] ?? "#6366f1";
+  const strokeColor = colorMap[accentClass] ?? "#34d399";
 
   return (
     <div className="relative" style={{ height: size, width: size }}>
@@ -397,7 +376,7 @@ function ProgressRing({
           fill="none"
           stroke="currentColor"
           strokeWidth="3"
-          className="text-black/[0.04]"
+          className="text-white/[0.06]"
         />
         <motion.circle
           cx={center}
@@ -420,7 +399,7 @@ function ProgressRing({
   );
 }
 
-/* ─── Helpers ─────────────────────────────────────────────────────────────── */
+/* --- Helpers --------------------------------------------------------------- */
 
 function getTimeGreeting(): string {
   const hour = new Date().getHours();

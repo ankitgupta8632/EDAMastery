@@ -10,7 +10,8 @@
     "generate-content": "npx tsx scripts/generate-content.ts",
     "evaluate-content": "npx tsx scripts/evaluate-content.ts",
     "export-notebooklm": "npx tsx scripts/export-for-notebooklm.ts",
-    "import-audio": "npx tsx scripts/import-audio.ts"
+    "import-audio": "npx tsx scripts/import-audio.ts",
+    "upload-media": "npx tsx scripts/upload-media.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.82.0",
@@ -19,6 +20,7 @@
     "@prisma/adapter-libsql": "^7.6.0",
     "@prisma/client": "^6.19.3",
     "@tailwindcss/typography": "^0.5.19",
+    "@vercel/blob": "^2.3.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",

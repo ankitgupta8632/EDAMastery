@@ -84,7 +84,7 @@ export function PodcastTutor({
     } catch {
       setMessages((prev) => [
         ...prev,
-        { role: "host", content: "Network error — check your connection and try again." },
+        { role: "host", content: "Network error -- check your connection and try again." },
       ]);
     } finally {
       setLoading(false);
@@ -98,7 +98,7 @@ export function PodcastTutor({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm"
+        className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
         onClick={onClose}
       />
 
@@ -108,26 +108,26 @@ export function PodcastTutor({
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
         transition={{ type: "spring", damping: 28, stiffness: 300 }}
-        className="fixed inset-x-0 bottom-0 z-50 flex h-[75vh] flex-col rounded-t-3xl bg-white shadow-2xl"
+        className="fixed inset-x-0 bottom-0 z-50 flex h-[75vh] flex-col rounded-t-3xl bg-[#121212] border-t border-white/[0.06]"
       >
         {/* Header */}
-        <div className="flex-shrink-0 border-b px-5 py-4">
+        <div className="flex-shrink-0 border-b border-white/[0.06] px-5 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-violet-100">
-                <Mic className="h-4 w-4 text-violet-600" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.06]">
+                <Mic className="h-4 w-4 text-green-500" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-slate-800">
+                <p className="text-sm font-semibold text-white">
                   Paused at {formatTimestamp(audioTimestamp)}
                 </p>
-                <p className="text-xs text-slate-400">{lessonTitle}</p>
+                <p className="text-xs text-white/40">{lessonTitle}</p>
               </div>
             </div>
             <Button
               onClick={onResume}
               size="sm"
-              className="gap-1.5 rounded-full bg-violet-600 hover:bg-violet-700 text-white font-medium px-4"
+              className="gap-1.5 rounded-full bg-green-600 hover:bg-green-700 text-white font-medium px-4"
             >
               <Play className="h-3.5 w-3.5" />
               Resume
@@ -139,7 +139,7 @@ export function PodcastTutor({
             <div className="mt-3">
               <button
                 onClick={() => setShowTranscript(!showTranscript)}
-                className="flex items-center gap-1 text-xs text-slate-400 hover:text-slate-600 transition-colors"
+                className="flex items-center gap-1 text-xs text-white/40 hover:text-white/70 transition-colors"
               >
                 {showTranscript ? (
                   <ChevronUp className="h-3 w-3" />
@@ -156,7 +156,7 @@ export function PodcastTutor({
                     exit={{ height: 0, opacity: 0 }}
                     className="overflow-hidden"
                   >
-                    <p className="mt-2 text-xs text-slate-500 italic bg-slate-50 rounded-lg p-3 line-clamp-4">
+                    <p className="mt-2 text-xs text-white/50 italic bg-white/[0.06] rounded-lg p-3 line-clamp-4">
                       &ldquo;{recentTranscript.slice(0, 500)}&rdquo;
                     </p>
                   </motion.div>
@@ -169,18 +169,18 @@ export function PodcastTutor({
         {/* Messages area */}
         <div ref={scrollRef} className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
           {messages.length === 0 && (
-            <div className="flex flex-col items-center justify-center h-full text-center space-y-3 text-slate-400">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-violet-50">
-                <MessageCircle className="h-7 w-7 text-violet-400" />
+            <div className="flex flex-col items-center justify-center h-full text-center space-y-3 text-white/40">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/[0.06]">
+                <MessageCircle className="h-7 w-7 text-green-500/70" />
               </div>
               <div>
-                <p className="text-sm font-medium text-slate-500">
+                <p className="text-sm font-medium text-white/50">
                   Ask about what you just heard
                 </p>
-                <p className="text-xs mt-1 text-slate-400 italic max-w-xs">
+                <p className="text-xs mt-1 text-white/40 italic max-w-xs">
                   &ldquo;Can you explain that timing concept again?&rdquo;
                 </p>
-                <p className="text-xs text-slate-400 italic max-w-xs">
+                <p className="text-xs text-white/40 italic max-w-xs">
                   &ldquo;How does this relate to Protium compilation?&rdquo;
                 </p>
               </div>
@@ -193,16 +193,16 @@ export function PodcastTutor({
               className={msg.role === "user" ? "ml-8 text-right" : "mr-4"}
             >
               {msg.role === "user" ? (
-                <div className="inline-block rounded-2xl bg-violet-600 px-4 py-2.5 text-sm text-white text-left">
+                <div className="inline-block rounded-2xl bg-green-600 px-4 py-2.5 text-sm text-white text-left">
                   {msg.content}
                 </div>
               ) : (
                 <div className="space-y-1">
                   <div className="flex items-start gap-2.5">
-                    <div className="flex-shrink-0 flex h-7 w-7 items-center justify-center rounded-full bg-violet-100 mt-0.5">
-                      <Mic className="h-3.5 w-3.5 text-violet-600" />
+                    <div className="flex-shrink-0 flex h-7 w-7 items-center justify-center rounded-full bg-white/[0.06] mt-0.5">
+                      <Mic className="h-3.5 w-3.5 text-green-500" />
                     </div>
-                    <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm prose prose-sm prose-slate max-w-none">
+                    <div className="rounded-2xl bg-white/[0.06] px-4 py-3 text-sm prose prose-sm prose-invert max-w-none">
                       <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {msg.content}
                       </ReactMarkdown>
@@ -216,10 +216,10 @@ export function PodcastTutor({
           {loading && (
             <div className="mr-4">
               <div className="flex items-start gap-2.5">
-                <div className="flex-shrink-0 flex h-7 w-7 items-center justify-center rounded-full bg-violet-100">
-                  <Mic className="h-3.5 w-3.5 text-violet-600" />
+                <div className="flex-shrink-0 flex h-7 w-7 items-center justify-center rounded-full bg-white/[0.06]">
+                  <Mic className="h-3.5 w-3.5 text-green-500" />
                 </div>
-                <div className="inline-flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-500">
+                <div className="inline-flex items-center gap-2 rounded-2xl bg-white/[0.06] px-4 py-3 text-sm text-white/50">
                   <Loader2 className="h-4 w-4 animate-spin" />
                   Thinking...
                 </div>
@@ -231,7 +231,7 @@ export function PodcastTutor({
         {/* Input area */}
         <form
           onSubmit={handleSubmit}
-          className="flex-shrink-0 border-t px-5 py-4 flex items-center gap-2"
+          className="flex-shrink-0 border-t border-white/[0.06] px-5 py-4 flex items-center gap-2"
         >
           <Input
             value={input}
@@ -245,7 +245,7 @@ export function PodcastTutor({
             type="submit"
             size="icon"
             disabled={!input.trim() || loading}
-            className="rounded-full bg-violet-600 hover:bg-violet-700 flex-shrink-0"
+            className="rounded-full bg-green-600 hover:bg-green-700 flex-shrink-0"
           >
             <Send className="h-4 w-4" />
           </Button>

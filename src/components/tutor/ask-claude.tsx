@@ -92,10 +92,10 @@ export function AskClaude({ lessonId, lessonTitle }: AskClaudeProps) {
           onClick={() => setOpen(true)}
           variant="outline"
           size="sm"
-          className="fixed bottom-20 right-4 z-50 rounded-full shadow-lg border-indigo-200 bg-white hover:bg-indigo-50 gap-2"
+          className="fixed bottom-20 right-4 z-50 rounded-full border border-white/[0.06] bg-[#1a1a1a] hover:bg-white/[0.06] gap-2"
         >
-          <MessageCircleQuestion className="h-4 w-4 text-indigo-600" />
-          <span className="text-sm font-medium text-indigo-600">
+          <MessageCircleQuestion className="h-4 w-4 text-green-500" />
+          <span className="text-sm font-medium text-green-500">
             Ask Claude
           </span>
         </Button>
@@ -110,7 +110,7 @@ export function AskClaude({ lessonId, lessonTitle }: AskClaudeProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 bg-black/20"
+              className="fixed inset-0 z-50 bg-black/50"
               onClick={() => setOpen(false)}
             />
 
@@ -120,20 +120,20 @@ export function AskClaude({ lessonId, lessonTitle }: AskClaudeProps) {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="fixed inset-x-0 bottom-0 z-50 flex h-[70vh] flex-col rounded-t-2xl bg-white shadow-2xl"
+              className="fixed inset-x-0 bottom-0 z-50 flex h-[70vh] flex-col rounded-t-2xl bg-[#121212] border-t border-white/[0.06]"
             >
               {/* Header */}
-              <div className="flex items-center justify-between border-b px-4 py-3">
+              <div className="flex items-center justify-between border-b border-white/[0.06] px-4 py-3">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-indigo-500" />
-                  <span className="text-sm font-semibold text-slate-800">
+                  <Sparkles className="h-4 w-4 text-green-500" />
+                  <span className="text-sm font-semibold text-white">
                     Ask about: {lessonTitle}
                   </span>
                 </div>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8"
+                  className="h-8 w-8 text-white/40 hover:text-white"
                   onClick={() => setOpen(false)}
                 >
                   <X className="h-4 w-4" />
@@ -146,7 +146,7 @@ export function AskClaude({ lessonId, lessonTitle }: AskClaudeProps) {
                 className="flex-1 overflow-y-auto px-4 py-3 space-y-4"
               >
                 {messages.length === 0 && (
-                  <div className="flex flex-col items-center justify-center h-full text-center space-y-3 text-slate-400">
+                  <div className="flex flex-col items-center justify-center h-full text-center space-y-3 text-white/40">
                     <MessageCircleQuestion className="h-10 w-10" />
                     <div>
                       <p className="text-sm">Ask anything about this lesson.</p>
@@ -164,12 +164,12 @@ export function AskClaude({ lessonId, lessonTitle }: AskClaudeProps) {
                     }
                   >
                     {msg.role === "user" ? (
-                      <div className="inline-block rounded-2xl bg-indigo-600 px-4 py-2 text-sm text-white text-left">
+                      <div className="inline-block rounded-2xl bg-green-600 px-4 py-2 text-sm text-white text-left">
                         {msg.content}
                       </div>
                     ) : (
                       <div className="space-y-1">
-                        <div className="rounded-2xl bg-slate-100 px-4 py-3 text-sm prose prose-sm prose-slate max-w-none">
+                        <div className="rounded-2xl bg-white/[0.06] px-4 py-3 text-sm prose prose-sm prose-invert max-w-none">
                           <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                             rehypePlugins={[rehypeHighlight]}
@@ -180,7 +180,7 @@ export function AskClaude({ lessonId, lessonTitle }: AskClaudeProps) {
                         {msg.source && (
                           <Badge
                             variant="outline"
-                            className="text-[10px] text-slate-400"
+                            className="text-[10px] text-white/40 border-white/[0.06]"
                           >
                             {msg.source === "claude"
                               ? "Answered by Claude"
@@ -193,7 +193,7 @@ export function AskClaude({ lessonId, lessonTitle }: AskClaudeProps) {
                 ))}
                 {loading && (
                   <div className="mr-8">
-                    <div className="inline-flex items-center gap-2 rounded-2xl bg-slate-100 px-4 py-3 text-sm text-slate-500">
+                    <div className="inline-flex items-center gap-2 rounded-2xl bg-white/[0.06] px-4 py-3 text-sm text-white/50">
                       <Loader2 className="h-4 w-4 animate-spin" />
                       Thinking...
                     </div>
@@ -204,7 +204,7 @@ export function AskClaude({ lessonId, lessonTitle }: AskClaudeProps) {
               {/* Input area */}
               <form
                 onSubmit={handleSubmit}
-                className="border-t px-4 py-3 flex items-center gap-2"
+                className="border-t border-white/[0.06] px-4 py-3 flex items-center gap-2"
               >
                 <Input
                   value={input}
@@ -218,7 +218,7 @@ export function AskClaude({ lessonId, lessonTitle }: AskClaudeProps) {
                   type="submit"
                   size="icon"
                   disabled={!input.trim() || loading}
-                  className="bg-indigo-600 hover:bg-indigo-700"
+                  className="bg-green-600 hover:bg-green-700"
                 >
                   <Send className="h-4 w-4" />
                 </Button>

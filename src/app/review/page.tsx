@@ -77,8 +77,8 @@ export default function ReviewPage() {
   if (loading) {
     return (
       <div className="mx-auto max-w-lg px-5 pt-6 pb-8">
-        <div className="h-7 w-36 animate-pulse rounded-lg bg-slate-100 mb-5" />
-        <div className="h-64 animate-pulse rounded-2xl bg-slate-100" />
+        <div className="h-7 w-36 animate-pulse rounded-lg bg-white/[0.06] mb-5" />
+        <div className="h-64 animate-pulse rounded-2xl bg-white/[0.06]" />
       </div>
     );
   }
@@ -91,12 +91,12 @@ export default function ReviewPage() {
           initial={{ scale: 0.8 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 15 }}
-          className="flex h-[72px] w-[72px] items-center justify-center rounded-full bg-gradient-to-br from-emerald-50 to-teal-50"
+          className="flex h-[72px] w-[72px] items-center justify-center rounded-full bg-green-900/30 border border-green-500/20"
         >
-          <PartyPopper className="h-8 w-8 text-emerald-500" />
+          <PartyPopper className="h-8 w-8 text-green-400" />
         </motion.div>
-        <h1 className="text-[22px] font-bold tracking-tight text-slate-900">All caught up!</h1>
-        <p className="text-[14px] leading-relaxed text-slate-400 max-w-[260px]">
+        <h1 className="text-[22px] font-bold tracking-tight text-white">All caught up!</h1>
+        <p className="text-[14px] leading-relaxed text-white/40 max-w-[260px]">
           No reviews due right now. Check back later or keep learning!
         </p>
       </div>
@@ -111,21 +111,21 @@ export default function ReviewPage() {
           initial={{ scale: 0.8, rotate: -10 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ type: "spring", stiffness: 200, damping: 15 }}
-          className="flex h-[72px] w-[72px] items-center justify-center rounded-full bg-gradient-to-br from-indigo-50 to-violet-50"
+          className="flex h-[72px] w-[72px] items-center justify-center rounded-full bg-green-900/30 border border-green-500/20"
         >
-          <Brain className="h-8 w-8 text-indigo-500" />
+          <Brain className="h-8 w-8 text-green-400" />
         </motion.div>
-        <h1 className="text-[22px] font-bold tracking-tight text-slate-900">Session Complete!</h1>
+        <h1 className="text-[22px] font-bold tracking-tight text-white">Session Complete!</h1>
         <div className="flex gap-2.5">
-          <span className="inline-flex items-center rounded-full bg-slate-100 px-3.5 py-1.5 text-[13px] font-semibold text-slate-700">
+          <span className="inline-flex items-center rounded-full bg-white/[0.06] px-3.5 py-1.5 text-[13px] font-semibold text-white/70">
             <CheckCircle2 className="mr-1.5 h-3.5 w-3.5" />
             {summary.reviewed} reviewed
           </span>
-          <span className="inline-flex items-center rounded-full bg-indigo-50 px-3.5 py-1.5 text-[13px] font-semibold text-indigo-600">
+          <span className="inline-flex items-center rounded-full bg-green-900/30 px-3.5 py-1.5 text-[13px] font-semibold text-green-400">
             +{summary.xpEarned} XP
           </span>
         </div>
-        <p className="text-[13px] text-slate-400">
+        <p className="text-[13px] text-white/40">
           Great job keeping your knowledge fresh!
         </p>
       </div>
@@ -140,16 +140,16 @@ export default function ReviewPage() {
 
       {/* Header row */}
       <div className="flex items-center justify-between">
-        <h1 className="text-[22px] font-bold tracking-tight text-slate-900">Review</h1>
-        <span className="rounded-full bg-slate-100 px-3 py-1 text-[12px] font-semibold text-slate-500 tabular-nums">
+        <h1 className="text-[22px] font-bold tracking-tight text-white">Review</h1>
+        <span className="rounded-full bg-white/[0.06] px-3 py-1 text-[12px] font-semibold text-white/50 tabular-nums">
           {currentIdx + 1} / {items.length}
         </span>
       </div>
 
       {/* Progress bar */}
-      <div className="h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
+      <div className="h-1.5 w-full rounded-full bg-white/[0.06] overflow-hidden">
         <motion.div
-          className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500"
+          className="h-full rounded-full bg-green-500"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
           transition={{ duration: 0.4, ease: "easeOut" }}
@@ -165,18 +165,18 @@ export default function ReviewPage() {
           exit={{ opacity: 0, x: -30, scale: 0.98 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
         >
-          <div className="rounded-2xl bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)]">
+          <div className="rounded-2xl bg-[#1a1a1a] border border-white/[0.06] p-6">
             <div className="space-y-8 text-center py-4">
               <div>
-                <p className="text-[12px] font-semibold uppercase tracking-wider text-slate-400">
+                <p className="text-[12px] font-semibold uppercase tracking-wider text-white/30">
                   {currentItem.moduleName}
                 </p>
-                <h2 className="mt-3 text-[20px] font-bold tracking-tight text-slate-900 leading-snug">
+                <h2 className="mt-3 text-[20px] font-bold tracking-tight text-white leading-snug">
                   {currentItem.lessonTitle}
                 </h2>
               </div>
 
-              <p className="text-[14px] text-slate-400">
+              <p className="text-[14px] text-white/40">
                 How well do you remember this?
               </p>
 
@@ -184,21 +184,21 @@ export default function ReviewPage() {
                 <button
                   onClick={() => handleRate(1)}
                   disabled={submitting}
-                  className="rounded-xl border border-red-200 bg-red-50/50 px-6 py-3 text-[14px] font-semibold text-red-600 transition-all duration-150 hover:bg-red-50 hover:border-red-300 active:scale-[0.98] disabled:opacity-50"
+                  className="rounded-xl border border-red-500/20 bg-red-900/20 px-6 py-3 text-[14px] font-semibold text-red-400 transition-all duration-150 hover:bg-red-900/30 hover:border-red-500/30 active:scale-[0.98] disabled:opacity-50"
                 >
                   Forgot
                 </button>
                 <button
                   onClick={() => handleRate(3)}
                   disabled={submitting}
-                  className="rounded-xl border border-amber-200 bg-amber-50/50 px-6 py-3 text-[14px] font-semibold text-amber-600 transition-all duration-150 hover:bg-amber-50 hover:border-amber-300 active:scale-[0.98] disabled:opacity-50"
+                  className="rounded-xl border border-amber-500/20 bg-amber-900/20 px-6 py-3 text-[14px] font-semibold text-amber-400 transition-all duration-150 hover:bg-amber-900/30 hover:border-amber-500/30 active:scale-[0.98] disabled:opacity-50"
                 >
                   Hard
                 </button>
                 <button
                   onClick={() => handleRate(5)}
                   disabled={submitting}
-                  className="rounded-xl border border-emerald-200 bg-emerald-50/50 px-6 py-3 text-[14px] font-semibold text-emerald-600 transition-all duration-150 hover:bg-emerald-50 hover:border-emerald-300 active:scale-[0.98] disabled:opacity-50"
+                  className="rounded-xl border border-green-500/20 bg-green-900/20 px-6 py-3 text-[14px] font-semibold text-green-400 transition-all duration-150 hover:bg-green-900/30 hover:border-green-500/30 active:scale-[0.98] disabled:opacity-50"
                 >
                   Easy
                 </button>

@@ -64,10 +64,10 @@ export type LearningMode = keyof typeof LEARNING_MODES;
 
 // Phase colors for UI
 export const PHASE_COLORS = {
-  "phase-1": { bg: "bg-indigo-50", text: "text-indigo-700", border: "border-indigo-200", accent: "bg-indigo-500" },
-  "phase-2": { bg: "bg-violet-50", text: "text-violet-700", border: "border-violet-200", accent: "bg-violet-500" },
-  "phase-3": { bg: "bg-pink-50", text: "text-pink-700", border: "border-pink-200", accent: "bg-pink-500" },
-  "phase-4": { bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-200", accent: "bg-amber-500" },
+  "phase-1": { bg: "bg-emerald-900/30", text: "text-emerald-400", border: "border-emerald-800", accent: "bg-emerald-500" },
+  "phase-2": { bg: "bg-sky-900/30", text: "text-sky-400", border: "border-sky-800", accent: "bg-sky-500" },
+  "phase-3": { bg: "bg-amber-900/30", text: "text-amber-400", border: "border-amber-800", accent: "bg-amber-500" },
+  "phase-4": { bg: "bg-purple-900/30", text: "text-purple-400", border: "border-purple-800", accent: "bg-purple-500" },
 } as const;
 
 // Content status workflow

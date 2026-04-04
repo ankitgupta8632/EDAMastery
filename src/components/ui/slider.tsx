@@ -13,6 +13,9 @@ function Slider({
   max = 100,
   ...props
 }: SliderPrimitive.Root.Props) {
+  const [mounted, setMounted] = React.useState(false)
+  React.useEffect(() => setMounted(true), [])
+
   const _values = React.useMemo(
     () =>
       Array.isArray(value)
@@ -22,6 +25,10 @@ function Slider({
           : [min, max],
     [value, defaultValue, min, max]
   )
+
+  if (!mounted) {
+    return <div className="h-5 w-full" />
+  }
 
   return (
     <SliderPrimitive.Root

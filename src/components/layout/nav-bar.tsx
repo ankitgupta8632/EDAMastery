@@ -35,7 +35,7 @@ export function NavBar() {
   }, [pathname]);
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-50 bg-white/95 backdrop-blur-xl border-t border-slate-100">
+    <nav className="fixed inset-x-0 bottom-0 z-50 bg-[#121212]/95 backdrop-blur-xl border-t border-white/[0.06]">
       <div className="mx-auto flex h-[68px] max-w-lg items-center justify-around px-2 pb-1">
         {NAV_ITEMS.map((item) => {
           const isActive =
@@ -51,8 +51,8 @@ export function NavBar() {
               className={cn(
                 "relative flex flex-col items-center gap-1 px-3 py-1.5 transition-colors duration-200",
                 isActive
-                  ? "text-indigo-600"
-                  : "text-slate-400"
+                  ? "text-green-500"
+                  : "text-white/30"
               )}
             >
               <div className="relative">
@@ -76,7 +76,7 @@ export function NavBar() {
               {isActive && (
                 <motion.div
                   layoutId="nav-indicator"
-                  className="absolute -top-0.5 h-[3px] w-5 rounded-full bg-indigo-600"
+                  className="absolute -top-0.5 h-[3px] w-5 rounded-full bg-green-500"
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}

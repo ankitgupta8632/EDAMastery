@@ -75,8 +75,10 @@ model Lesson {
   moduleId          String
   contentMarkdown   String? // the lesson text content
   contentJson       String? // structured JSON
+  videoUrl          String? // NotebookLM video overview
   audioUrl          String?
   audioTranscript   String?
+  infographicUrl    String? // NotebookLM infographic image
   protiumNote       String? // how this applies to Protium
   labUrl            String?
   labInstructions   String?

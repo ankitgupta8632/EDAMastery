@@ -14,12 +14,6 @@ interface OnboardingFlowProps {
   onComplete: () => void;
 }
 
-const STEP_GRADIENTS = [
-  "from-indigo-600 via-indigo-500 to-violet-600",
-  "from-violet-600 via-purple-500 to-indigo-600",
-  "from-indigo-500 via-violet-500 to-purple-600",
-];
-
 export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   const [step, setStep] = useState(0);
   const [dailyGoal, setDailyGoal] = useState(15);
@@ -71,13 +65,13 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
         initial={{ scale: 0.8, rotate: -10 }}
         animate={{ scale: 1, rotate: 0 }}
         transition={{ ...springTransition, delay: 0.1 }}
-        className="flex h-24 w-24 items-center justify-center rounded-3xl bg-white/20 backdrop-blur-sm shadow-lg"
+        className="flex h-24 w-24 items-center justify-center rounded-3xl bg-white/[0.06]"
       >
-        <GraduationCap className="h-12 w-12 text-white" />
+        <GraduationCap className="h-12 w-12 text-green-500" />
       </motion.div>
       <div className="space-y-3">
         <h1 className="text-3xl font-extrabold text-white">Welcome to EDAMastery</h1>
-        <p className="text-white/80 max-w-md leading-relaxed text-base">
+        <p className="text-white/70 max-w-md leading-relaxed text-base">
           Your personal path from software engineer to EDA expert.
           <span className="font-semibold text-white"> 78 bite-sized lessons</span>,
           designed to fit your busy life.
@@ -86,31 +80,31 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
 
       <div className="grid grid-cols-3 gap-4 w-full max-w-sm pt-2">
         {[
-          { icon: BookOpen, label: "12 Modules", color: "text-indigo-200" },
-          { icon: Clock, label: "15 min/day", color: "text-violet-200" },
-          { icon: Heart, label: "Your pace", color: "text-pink-200" },
+          { icon: BookOpen, label: "12 Modules", color: "text-green-400" },
+          { icon: Clock, label: "15 min/day", color: "text-green-300" },
+          { icon: Heart, label: "Your pace", color: "text-green-200" },
         ].map((item, i) => (
           <motion.div
             key={item.label}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 + i * 0.1 }}
-            className="flex flex-col items-center gap-2 rounded-2xl bg-white/10 backdrop-blur-sm p-4"
+            className="flex flex-col items-center gap-2 rounded-2xl bg-white/[0.06] p-4"
           >
             <item.icon className={`h-5 w-5 ${item.color}`} />
-            <span className="text-xs text-white/80 font-medium">{item.label}</span>
+            <span className="text-xs text-white/70 font-medium">{item.label}</span>
           </motion.div>
         ))}
       </div>
 
-      <p className="text-sm text-white/60 italic max-w-xs">
+      <p className="text-sm text-white/40 italic max-w-xs">
         We know you&apos;re juggling a lot. This app adapts to your schedule — not the other way around.
       </p>
 
       <Button
         onClick={() => setStep(1)}
         size="lg"
-        className="mt-2 bg-white text-indigo-700 hover:bg-white/90 font-semibold text-base px-8 shadow-lg"
+        className="mt-2 bg-green-600 text-white hover:bg-green-700 font-semibold text-base px-8"
       >
         Get Started <ArrowRight className="ml-2 h-5 w-5" />
       </Button>
@@ -130,10 +124,10 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
         <p className="text-sm text-white/70">Takes 30 seconds. You can change these anytime.</p>
       </div>
 
-      <Card className="border-0 shadow-xl bg-white/95 backdrop-blur-sm">
+      <Card className="border border-white/[0.06] bg-[#1a1a1a]">
         <CardContent className="space-y-5 pt-5">
           <div className="space-y-2">
-            <Label className="text-sm font-medium">Daily learning goal</Label>
+            <Label className="text-sm font-medium text-white">Daily learning goal</Label>
             <div className="flex items-center gap-3">
               <Slider
                 value={[dailyGoal]}
@@ -143,21 +137,21 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                 onValueChange={(v) => setDailyGoal(Array.isArray(v) ? v[0] : v)}
                 className="flex-1"
               />
-              <span className="text-sm font-bold text-indigo-600 w-16 text-right">
+              <span className="text-sm font-bold text-green-500 w-16 text-right">
                 {dailyGoal} min
               </span>
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-white/40">
               {dailyGoal <= 10
                 ? "Perfect for super busy days"
                 : dailyGoal <= 15
-                  ? "Great balance — most parents pick this"
+                  ? "Great balance -- most parents pick this"
                   : "Ambitious! You'll progress quickly"}
             </p>
           </div>
 
           <div className="space-y-3">
-            <Label className="text-sm font-medium">When do you commute?</Label>
+            <Label className="text-sm font-medium text-white">When do you commute?</Label>
             <div className="grid grid-cols-2 gap-3">
               <Input type="time" value={commuteStart} onChange={(e) => setCommuteStart(e.target.value)} />
               <Input type="time" value={commuteEnd} onChange={(e) => setCommuteEnd(e.target.value)} />
@@ -165,7 +159,7 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           </div>
 
           <div className="space-y-3">
-            <Label className="text-sm font-medium">Evening wind-down time?</Label>
+            <Label className="text-sm font-medium text-white">Evening wind-down time?</Label>
             <div className="grid grid-cols-2 gap-3">
               <Input type="time" value={eveningStart} onChange={(e) => setEveningStart(e.target.value)} />
               <Input type="time" value={eveningEnd} onChange={(e) => setEveningEnd(e.target.value)} />
@@ -174,8 +168,8 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
 
           <div className="flex items-center justify-between">
             <div>
-              <Label className="text-sm font-medium">Learn on weekends?</Label>
-              <p className="text-xs text-slate-400">Family first — off by default</p>
+              <Label className="text-sm font-medium text-white">Learn on weekends?</Label>
+              <p className="text-xs text-white/40">Family first -- off by default</p>
             </div>
             <Switch checked={weekendLearning} onCheckedChange={setWeekendLearning} />
           </div>
@@ -185,7 +179,7 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       <Button
         onClick={() => setStep(2)}
         size="lg"
-        className="w-full bg-white text-indigo-700 hover:bg-white/90 font-semibold shadow-lg"
+        className="w-full bg-green-600 text-white hover:bg-green-700 font-semibold"
       >
         Almost done <ArrowRight className="ml-2 h-4 w-4" />
       </Button>
@@ -204,28 +198,28 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
         initial={{ scale: 0.5, rotate: -20 }}
         animate={{ scale: 1, rotate: 0 }}
         transition={{ ...springTransition, delay: 0.1 }}
-        className="flex h-24 w-24 items-center justify-center rounded-3xl bg-white/20 backdrop-blur-sm shadow-lg"
+        className="flex h-24 w-24 items-center justify-center rounded-3xl bg-white/[0.06]"
       >
-        <Sparkles className="h-12 w-12 text-white" />
+        <Sparkles className="h-12 w-12 text-green-500" />
       </motion.div>
       <div className="space-y-3">
         <h2 className="text-3xl font-extrabold text-white">You&apos;re all set!</h2>
-        <p className="text-white/80 max-w-md leading-relaxed text-base">
-          Your first lesson is <span className="font-semibold text-white">What is Digital Design?</span> — a gentle 10-minute introduction that connects to your work on Protium.
+        <p className="text-white/70 max-w-md leading-relaxed text-base">
+          Your first lesson is <span className="font-semibold text-white">What is Digital Design?</span> -- a gentle 10-minute introduction that connects to your work on Protium.
         </p>
       </div>
 
-      <div className="bg-white/15 backdrop-blur-sm border border-white/20 rounded-2xl p-5 max-w-sm">
-        <p className="text-sm text-white/90">
-          <span className="font-semibold">Remember:</span> Even 2 minutes counts.
-          On the hardest days, just open a Quick Win — your streak stays alive, and you&apos;re still moving forward.
+      <div className="bg-white/[0.06] border border-white/[0.06] rounded-2xl p-5 max-w-sm">
+        <p className="text-sm text-white/70">
+          <span className="font-semibold text-white">Remember:</span> Even 2 minutes counts.
+          On the hardest days, just open a Quick Win -- your streak stays alive, and you&apos;re still moving forward.
         </p>
       </div>
 
       <Button
         onClick={handleFinish}
         size="lg"
-        className="mt-2 bg-white text-indigo-700 hover:bg-white/90 font-semibold text-base px-10 shadow-lg"
+        className="mt-2 bg-green-600 text-white hover:bg-green-700 font-semibold text-base px-10"
       >
         Start Learning <ArrowRight className="ml-2 h-5 w-5" />
       </Button>
@@ -235,7 +229,7 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   return (
     <motion.div
       key={step}
-      className={`min-h-screen flex flex-col items-center justify-center px-4 py-12 bg-gradient-to-br ${STEP_GRADIENTS[step]}`}
+      className="min-h-screen flex flex-col items-center justify-center px-4 py-12 bg-[#121212]"
       initial={false}
       animate={{ opacity: 1 }}
     >
@@ -246,7 +240,7 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
             key={i}
             animate={{
               width: i === step ? 32 : 8,
-              backgroundColor: i <= step ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.3)",
+              backgroundColor: i <= step ? "rgba(34,197,94,0.9)" : "rgba(255,255,255,0.15)",
             }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="h-2 rounded-full"

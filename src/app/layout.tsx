@@ -34,7 +34,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-gradient-to-b from-slate-50 to-slate-100/50">
+      <body className="min-h-full text-foreground" style={{ backgroundColor: '#121212', fontFamily: 'var(--font-geist-sans), system-ui, sans-serif' }}>
         <AppProvider>
           <TooltipProvider>
             <Header />

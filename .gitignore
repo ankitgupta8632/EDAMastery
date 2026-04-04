@@ -41,3 +41,12 @@ yarn-error.log*
 next-env.d.ts
 
 /src/generated/prisma
+
+# media files (served from Vercel Blob CDN)
+/public/audio/
+/public/video/
+/public/infographics/
+
+# local database
+/prisma/prisma/dev.db
+/prisma/dev.db

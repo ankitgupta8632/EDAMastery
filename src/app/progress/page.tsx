@@ -43,10 +43,10 @@ export default function ProgressPage() {
   if (loading) {
     return (
       <div className="mx-auto max-w-lg px-5 pt-6 pb-8">
-        <div className="h-7 w-28 animate-pulse rounded-lg bg-slate-100 mb-5" />
+        <div className="h-7 w-28 animate-pulse rounded-lg bg-white/[0.06] mb-5" />
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-24 animate-pulse rounded-2xl bg-slate-100" />
+            <div key={i} className="h-24 animate-pulse rounded-2xl bg-white/[0.06]" />
           ))}
         </div>
       </div>
@@ -75,12 +75,12 @@ export default function ProgressPage() {
 
       {/* Header */}
       <div>
-        <h1 className="text-[26px] font-bold tracking-tight text-slate-900">Progress</h1>
-        <p className="mt-0.5 text-[14px] text-slate-400">Your learning journey so far</p>
+        <h1 className="text-[26px] font-bold tracking-tight text-white">Progress</h1>
+        <p className="mt-0.5 text-[14px] text-white/40">Your learning journey so far</p>
       </div>
 
       {/* Overall completion hero */}
-      <div className="rounded-2xl bg-gradient-to-br from-indigo-600 via-indigo-600 to-violet-600 p-5 text-white shadow-[0_2px_8px_rgba(99,102,241,0.25)]">
+      <div className="rounded-2xl bg-green-900/30 border border-green-500/20 p-5 text-white">
         <div className="flex items-center gap-5">
           <div className="flex flex-col items-center">
             <motion.p
@@ -91,20 +91,20 @@ export default function ProgressPage() {
             >
               {overallPercent}%
             </motion.p>
-            <p className="mt-1 text-[12px] font-medium text-white/60 uppercase tracking-wider">complete</p>
+            <p className="mt-1 text-[12px] font-medium text-white/40 uppercase tracking-wider">complete</p>
           </div>
           <div className="flex-1 space-y-2.5">
             <div className="flex items-center justify-between">
-              <span className="text-[13px] font-medium text-white/80">
+              <span className="text-[13px] font-medium text-white/70">
                 {completedLessons} of {totalLessons} lessons
               </span>
             </div>
-            <div className="h-2 rounded-full bg-white/20 overflow-hidden">
+            <div className="h-2 rounded-full bg-white/10 overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${overallPercent}%` }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="h-2 rounded-full bg-white"
+                className="h-2 rounded-full bg-green-500"
               />
             </div>
           </div>
@@ -113,24 +113,24 @@ export default function ProgressPage() {
 
       {/* XP and Level stats row */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-2xl bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] active:scale-[0.98] transition-transform duration-150">
+        <div className="rounded-2xl bg-[#1a1a1a] border border-white/[0.06] p-4 active:scale-[0.98] transition-transform duration-150">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50">
-              <Star className="h-[18px] w-[18px] text-amber-500" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06]">
+              <Star className="h-[18px] w-[18px] text-amber-400" />
             </div>
             <div>
-              <p className="text-[22px] font-bold leading-none text-slate-900">{totalXp}</p>
-              <p className="mt-0.5 text-[12px] text-slate-400">total XP</p>
+              <p className="text-[22px] font-bold leading-none text-white">{totalXp}</p>
+              <p className="mt-0.5 text-[12px] text-white/40">total XP</p>
             </div>
           </div>
         </div>
 
-        <div className="rounded-2xl bg-gradient-to-br from-indigo-50 to-violet-50/80 p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] active:scale-[0.98] transition-transform duration-150">
+        <div className="rounded-2xl bg-[#1a1a1a] border border-white/[0.06] p-4 active:scale-[0.98] transition-transform duration-150">
           <div className="flex items-center gap-3">
             <span className="text-[28px] leading-none">{currentLevel.icon}</span>
             <div>
-              <p className="text-[15px] font-bold leading-none text-slate-900">{currentLevel.name}</p>
-              <p className="mt-0.5 text-[12px] text-slate-400">Level {currentLevel.level}</p>
+              <p className="text-[15px] font-bold leading-none text-white">{currentLevel.name}</p>
+              <p className="mt-0.5 text-[12px] text-white/40">Level {currentLevel.level}</p>
             </div>
           </div>
         </div>
@@ -138,10 +138,10 @@ export default function ProgressPage() {
 
       {/* Phase progress */}
       <div>
-        <p className="mb-3 text-[13px] font-semibold uppercase tracking-wider text-slate-400">
+        <p className="mb-3 text-[13px] font-semibold uppercase tracking-wider text-white/30">
           Phase Progress
         </p>
-        <div className="rounded-2xl bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)]">
+        <div className="rounded-2xl bg-[#1a1a1a] border border-white/[0.06] p-4">
           <div className="space-y-4">
             {phases.map((phase, idx) => {
               const phaseKey = `phase-${idx + 1}` as keyof typeof PHASE_COLORS;
@@ -152,11 +152,11 @@ export default function ProgressPage() {
                     <span className={`text-[14px] font-semibold ${colors.text}`}>
                       {phase.phaseName}
                     </span>
-                    <span className="text-[12px] font-semibold text-slate-400 tabular-nums">
+                    <span className="text-[12px] font-semibold text-white/40 tabular-nums">
                       {Math.round(phase.completionPercent)}%
                     </span>
                   </div>
-                  <div className="h-2 rounded-full bg-slate-100 overflow-hidden">
+                  <div className="h-2 rounded-full bg-white/[0.06] overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${phase.completionPercent}%` }}
@@ -174,17 +174,17 @@ export default function ProgressPage() {
       {/* Lessons per module chart */}
       {chartData.length > 0 && (
         <div>
-          <p className="mb-3 text-[13px] font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+          <p className="mb-3 text-[13px] font-semibold uppercase tracking-wider text-white/30 flex items-center gap-1.5">
             <BarChart3 className="h-3.5 w-3.5" />
             Lessons by Module
           </p>
-          <div className="rounded-2xl bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)]">
+          <div className="rounded-2xl bg-[#1a1a1a] border border-white/[0.06] p-4">
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#222" />
                 <XAxis
                   dataKey="name"
-                  tick={{ fontSize: 10, fill: "#94a3b8" }}
+                  tick={{ fontSize: 10, fill: "#666" }}
                   angle={-30}
                   textAnchor="end"
                   height={60}
@@ -192,7 +192,7 @@ export default function ProgressPage() {
                   tickLine={false}
                 />
                 <YAxis
-                  tick={{ fontSize: 11, fill: "#94a3b8" }}
+                  tick={{ fontSize: 11, fill: "#666" }}
                   allowDecimals={false}
                   axisLine={false}
                   tickLine={false}
@@ -200,14 +200,15 @@ export default function ProgressPage() {
                 <Tooltip
                   contentStyle={{
                     borderRadius: "12px",
-                    border: "none",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+                    border: "1px solid rgba(255,255,255,0.06)",
+                    backgroundColor: "#1a1a1a",
+                    color: "#fff",
                     fontSize: "12px",
                     padding: "8px 12px",
                   }}
                 />
-                <Bar dataKey="completed" fill="#6366f1" radius={[6, 6, 0, 0]} name="Completed" />
-                <Bar dataKey="total" fill="#e2e8f0" radius={[6, 6, 0, 0]} name="Total" />
+                <Bar dataKey="completed" fill="#1A8917" radius={[6, 6, 0, 0]} name="Completed" />
+                <Bar dataKey="total" fill="#333" radius={[6, 6, 0, 0]} name="Total" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -216,16 +217,16 @@ export default function ProgressPage() {
 
       {/* Estimated time remaining */}
       {data?.estimatedHoursRemaining != null && data.estimatedHoursRemaining > 0 && (
-        <div className="rounded-2xl bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)]">
+        <div className="rounded-2xl bg-[#1a1a1a] border border-white/[0.06] p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50">
-              <Clock className="h-[18px] w-[18px] text-slate-400" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06]">
+              <Clock className="h-[18px] w-[18px] text-white/40" />
             </div>
             <div>
-              <p className="text-[15px] font-semibold text-slate-900">
+              <p className="text-[15px] font-semibold text-white">
                 ~{Math.round(data.estimatedHoursRemaining)} hours remaining
               </p>
-              <p className="text-[12px] text-slate-400">
+              <p className="text-[12px] text-white/40">
                 Based on your current pace
               </p>
             </div>

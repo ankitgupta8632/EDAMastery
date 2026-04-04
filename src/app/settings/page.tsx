@@ -89,9 +89,9 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-8 space-y-4">
-        <div className="h-8 w-28 animate-pulse rounded-lg bg-slate-100" />
+        <div className="h-8 w-28 animate-pulse rounded-lg bg-white/[0.06]" />
         {[1, 2, 3].map((i) => (
-          <div key={i} className="h-32 animate-pulse rounded-2xl bg-slate-100" />
+          <div key={i} className="h-32 animate-pulse rounded-2xl bg-white/[0.06]" />
         ))}
       </div>
     );
@@ -117,20 +117,20 @@ export default function SettingsPage() {
       animate="visible"
       className="mx-auto max-w-2xl space-y-6 px-4 py-8"
     >
-      <motion.h1 variants={itemVariants} className="text-2xl font-bold text-slate-800">
+      <motion.h1 variants={itemVariants} className="text-2xl font-bold text-white">
         Settings
       </motion.h1>
 
       {/* Learning Schedule */}
       <motion.div variants={itemVariants}>
-        <Card className="border-0 shadow-sm">
+        <Card className="border border-white/[0.06] bg-[#1a1a1a] shadow-none">
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-semibold">Learning Schedule</CardTitle>
+            <CardTitle className="text-base font-semibold text-white">Learning Schedule</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div>
-              <Label className="text-sm font-medium">
-                Daily Goal: <span className="text-indigo-600 font-bold">{settings.dailyGoalMinutes} minutes</span>
+              <Label className="text-sm font-medium text-white/70">
+                Daily Goal: <span className="text-green-400 font-bold">{settings.dailyGoalMinutes} minutes</span>
               </Label>
               <Slider
                 value={[settings.dailyGoalMinutes]}
@@ -140,16 +140,16 @@ export default function SettingsPage() {
                 step={5}
                 className="mt-2"
               />
-              <div className="flex justify-between text-[10px] text-slate-400 mt-1">
+              <div className="flex justify-between text-[10px] text-white/30 mt-1">
                 <span>5 min</span>
                 <span>60 min</span>
               </div>
             </div>
 
-            <div className="flex items-center justify-between rounded-xl bg-slate-50 p-4">
+            <div className="flex items-center justify-between rounded-xl bg-white/[0.06] p-4">
               <div>
-                <Label className="text-sm font-medium">Weekend Learning</Label>
-                <p className="text-xs text-slate-400">Include weekends in your streak</p>
+                <Label className="text-sm font-medium text-white/70">Weekend Learning</Label>
+                <p className="text-xs text-white/40">Include weekends in your streak</p>
               </div>
               <Switch
                 checked={settings.weekendLearning}
@@ -157,11 +157,11 @@ export default function SettingsPage() {
               />
             </div>
 
-            <Separator />
+            <Separator className="bg-white/[0.06]" />
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label className="text-xs font-medium text-slate-500">Commute Start</Label>
+                <Label className="text-xs font-medium text-white/40">Commute Start</Label>
                 <Input
                   type="time"
                   value={settings.commuteStartTime}
@@ -170,7 +170,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <Label className="text-xs font-medium text-slate-500">Commute End</Label>
+                <Label className="text-xs font-medium text-white/40">Commute End</Label>
                 <Input
                   type="time"
                   value={settings.commuteEndTime}
@@ -182,7 +182,7 @@ export default function SettingsPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label className="text-xs font-medium text-slate-500">Evening Start</Label>
+                <Label className="text-xs font-medium text-white/40">Evening Start</Label>
                 <Input
                   type="time"
                   value={settings.eveningStartTime}
@@ -191,7 +191,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <Label className="text-xs font-medium text-slate-500">Evening End</Label>
+                <Label className="text-xs font-medium text-white/40">Evening End</Label>
                 <Input
                   type="time"
                   value={settings.eveningEndTime}
@@ -206,13 +206,13 @@ export default function SettingsPage() {
 
       {/* Content Preferences */}
       <motion.div variants={itemVariants}>
-        <Card className="border-0 shadow-sm">
+        <Card className="border border-white/[0.06] bg-[#1a1a1a] shadow-none">
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-semibold">Content Preferences</CardTitle>
+            <CardTitle className="text-base font-semibold text-white">Content Preferences</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div>
-              <Label className="text-sm font-medium">Preferred Mode</Label>
+              <Label className="text-sm font-medium text-white/70">Preferred Mode</Label>
               <Select
                 value={settings.preferredMode}
                 onValueChange={(v) => update("preferredMode", v ?? "auto")}
@@ -231,8 +231,8 @@ export default function SettingsPage() {
             </div>
 
             <div>
-              <Label className="text-sm font-medium">
-                Playback Speed: <span className="text-indigo-600 font-bold">{settings.playbackSpeed}x</span>
+              <Label className="text-sm font-medium text-white/70">
+                Playback Speed: <span className="text-green-400 font-bold">{settings.playbackSpeed}x</span>
               </Label>
               <Slider
                 value={[settings.playbackSpeed]}
@@ -242,7 +242,7 @@ export default function SettingsPage() {
                 step={0.25}
                 className="mt-2"
               />
-              <div className="flex justify-between text-[10px] text-slate-400 mt-1">
+              <div className="flex justify-between text-[10px] text-white/30 mt-1">
                 <span>0.5x</span>
                 <span>2x</span>
               </div>
@@ -253,15 +253,15 @@ export default function SettingsPage() {
 
       {/* Empathy */}
       <motion.div variants={itemVariants}>
-        <Card className="border-0 shadow-sm">
+        <Card className="border border-white/[0.06] bg-[#1a1a1a] shadow-none">
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-semibold">Empathy</CardTitle>
+            <CardTitle className="text-base font-semibold text-white">Empathy</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex items-start justify-between gap-4 rounded-xl bg-slate-50 p-4">
+            <div className="flex items-start justify-between gap-4 rounded-xl bg-white/[0.06] p-4">
               <div className="flex-1">
-                <Label className="text-sm font-medium">I&apos;m Overwhelmed</Label>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <Label className="text-sm font-medium text-white/70">I&apos;m Overwhelmed</Label>
+                <p className="text-xs text-white/40 mt-0.5">
                   Reduces daily goals to {settings.reducedGoalMinutes} minutes for 3 days. No judgment — rest is part of learning.
                 </p>
               </div>
@@ -274,10 +274,10 @@ export default function SettingsPage() {
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
-                className="flex items-center gap-2 rounded-xl bg-amber-50 border border-amber-200 px-4 py-3"
+                className="flex items-center gap-2 rounded-xl bg-amber-900/20 border border-amber-500/20 px-4 py-3"
               >
-                <AlertCircle className="h-4 w-4 text-amber-500 shrink-0" />
-                <p className="text-xs text-amber-700">
+                <AlertCircle className="h-4 w-4 text-amber-400 shrink-0" />
+                <p className="text-xs text-amber-400">
                   Overwhelmed mode is active. Your goals are reduced. Take it easy.
                 </p>
               </motion.div>
@@ -288,29 +288,29 @@ export default function SettingsPage() {
 
       {/* NotebookLM */}
       <motion.div variants={itemVariants}>
-        <Card className="border-0 shadow-sm">
+        <Card className="border border-white/[0.06] bg-[#1a1a1a] shadow-none">
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-semibold">NotebookLM</CardTitle>
+            <CardTitle className="text-base font-semibold text-white">NotebookLM</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-2">
               {settings.notebookLmConfigured ? (
                 <>
-                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-100">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-green-900/30">
+                    <CheckCircle2 className="h-3.5 w-3.5 text-green-400" />
                   </div>
-                  <span className="text-sm font-medium text-emerald-700">Connected</span>
+                  <span className="text-sm font-medium text-green-400">Connected</span>
                 </>
               ) : (
                 <>
-                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-slate-100">
-                    <AlertCircle className="h-3.5 w-3.5 text-slate-400" />
+                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-white/[0.06]">
+                    <AlertCircle className="h-3.5 w-3.5 text-white/40" />
                   </div>
-                  <span className="text-sm text-slate-500">Not configured</span>
+                  <span className="text-sm text-white/50">Not configured</span>
                 </>
               )}
             </div>
-            <p className="text-xs text-slate-400 mt-1.5">
+            <p className="text-xs text-white/40 mt-1.5">
               Configure in the admin panel to enable notebook-powered learning.
             </p>
           </CardContent>
@@ -322,7 +322,7 @@ export default function SettingsPage() {
         <Button
           onClick={handleSave}
           disabled={saving}
-          className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 shadow-sm"
+          className="w-full bg-green-600 hover:bg-green-500 text-white shadow-none"
           size="lg"
         >
           <Save className="mr-2 h-4 w-4" />
@@ -330,9 +330,9 @@ export default function SettingsPage() {
         </Button>
       </motion.div>
 
-      <Separator className="my-2" />
+      <Separator className="my-2 bg-white/[0.06]" />
       <div className="text-center pb-4">
-        <Link href="/admin" className="text-xs text-slate-400 hover:text-indigo-500 transition-colors duration-200">
+        <Link href="/admin" className="text-xs text-white/30 hover:text-green-400 transition-colors duration-200">
           Admin Panel &rarr;
         </Link>
       </div>

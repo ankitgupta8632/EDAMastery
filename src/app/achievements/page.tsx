@@ -40,11 +40,11 @@ export default function AchievementsPage() {
   if (loading) {
     return (
       <div className="mx-auto max-w-lg px-5 pt-6 pb-8">
-        <div className="h-7 w-36 animate-pulse rounded-lg bg-slate-100 mb-5" />
-        <div className="h-44 animate-pulse rounded-2xl bg-slate-100 mb-4" />
+        <div className="h-7 w-36 animate-pulse rounded-lg bg-white/[0.06] mb-5" />
+        <div className="h-44 animate-pulse rounded-2xl bg-white/[0.06] mb-4" />
         <div className="grid grid-cols-3 gap-3">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="h-28 animate-pulse rounded-2xl bg-slate-100" />
+            <div key={i} className="h-28 animate-pulse rounded-2xl bg-white/[0.06]" />
           ))}
         </div>
       </div>
@@ -56,12 +56,12 @@ export default function AchievementsPage() {
 
       {/* Header */}
       <div>
-        <h1 className="text-[26px] font-bold tracking-tight text-slate-900">Achievements</h1>
-        <p className="mt-0.5 text-[14px] text-slate-400">Milestones and badges you have earned</p>
+        <h1 className="text-[26px] font-bold tracking-tight text-white">Achievements</h1>
+        <p className="mt-0.5 text-[14px] text-white/40">Milestones and badges you have earned</p>
       </div>
 
       {/* Level hero card */}
-      <div className="rounded-2xl bg-gradient-to-br from-indigo-600 via-indigo-600 to-violet-600 p-6 text-white shadow-[0_2px_8px_rgba(99,102,241,0.25)]">
+      <div className="rounded-2xl bg-green-900/30 border border-green-500/20 p-6 text-white">
         <div className="flex flex-col items-center text-center">
           <motion.span
             initial={{ scale: 0, rotate: -20 }}
@@ -72,18 +72,18 @@ export default function AchievementsPage() {
             {currentLevel.icon}
           </motion.span>
           <h2 className="mt-3 text-[20px] font-bold tracking-tight">{currentLevel.name}</h2>
-          <p className="text-[13px] font-medium text-white/60">Level {currentLevel.level}</p>
+          <p className="text-[13px] font-medium text-white/40">Level {currentLevel.level}</p>
           <div className="mt-4 w-full max-w-[240px]">
-            <div className="flex justify-between text-[11px] font-medium text-white/50 mb-1.5 tabular-nums">
+            <div className="flex justify-between text-[11px] font-medium text-white/30 mb-1.5 tabular-nums">
               <span>{totalXp} XP</span>
               <span>{nextLevel.xpRequired} XP</span>
             </div>
-            <div className="h-2 rounded-full bg-white/20 overflow-hidden">
+            <div className="h-2 rounded-full bg-white/10 overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${xpProgress}%` }}
                 transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
-                className="h-2 rounded-full bg-white"
+                className="h-2 rounded-full bg-green-500"
               />
             </div>
           </div>
@@ -92,22 +92,22 @@ export default function AchievementsPage() {
 
       {/* Streak info */}
       {streak && (
-        <div className="rounded-2xl bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)]">
+        <div className="rounded-2xl bg-[#1a1a1a] border border-white/[0.06] p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06]">
                 <Flame className="h-[18px] w-[18px] text-orange-500" />
               </div>
               <div>
-                <p className="text-[15px] font-semibold text-slate-900">
+                <p className="text-[15px] font-semibold text-white">
                   {streak.currentStreak} day streak
                 </p>
-                <p className="text-[12px] text-slate-400">
+                <p className="text-[12px] text-white/40">
                   Best: {streak.longestStreak} days
                 </p>
               </div>
             </div>
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-[12px] font-semibold text-slate-500">
+            <span className="rounded-full bg-white/[0.06] px-3 py-1 text-[12px] font-semibold text-white/50">
               {earned.length} / {ACHIEVEMENTS.length}
             </span>
           </div>
@@ -116,7 +116,7 @@ export default function AchievementsPage() {
 
       {/* Achievement grid */}
       <div>
-        <p className="mb-3 text-[13px] font-semibold uppercase tracking-wider text-slate-400">
+        <p className="mb-3 text-[13px] font-semibold uppercase tracking-wider text-white/30">
           Badges
         </p>
         <div className="grid grid-cols-3 gap-2.5">
@@ -134,31 +134,31 @@ export default function AchievementsPage() {
                 <div
                   className={
                     isEarned
-                      ? "rounded-2xl bg-gradient-to-br from-indigo-50/80 to-violet-50/80 p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] active:scale-[0.98] transition-transform duration-150"
-                      : "rounded-2xl bg-slate-50 p-4 opacity-40"
+                      ? "rounded-2xl bg-green-900/20 border border-green-500/20 p-4 active:scale-[0.98] transition-transform duration-150"
+                      : "rounded-2xl bg-white/[0.03] border border-white/[0.06] p-4 opacity-40"
                   }
                 >
                   <div className="flex flex-col items-center gap-1.5 text-center">
                     {isEarned ? (
                       <span className="text-[24px] leading-none drop-shadow-sm">{ach.icon}</span>
                     ) : (
-                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-200/60">
-                        <Lock className="h-3.5 w-3.5 text-slate-300" />
+                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white/[0.06]">
+                        <Lock className="h-3.5 w-3.5 text-white/20" />
                       </div>
                     )}
                     <p
                       className={`text-[11px] font-semibold leading-tight ${
-                        isEarned ? "text-indigo-700" : "text-slate-400"
+                        isEarned ? "text-green-400" : "text-white/40"
                       }`}
                     >
                       {ach.name}
                     </p>
                     {isEarned && earnedData ? (
-                      <p className="text-[10px] text-indigo-400 font-medium">
+                      <p className="text-[10px] text-green-400/60 font-medium">
                         {format(new Date(earnedData.earnedAt), "MMM d")}
                       </p>
                     ) : (
-                      <p className="text-[10px] text-slate-400 leading-tight">
+                      <p className="text-[10px] text-white/30 leading-tight">
                         {ach.description}
                       </p>
                     )}

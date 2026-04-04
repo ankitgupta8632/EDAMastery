@@ -25,15 +25,15 @@ export function LearnPageClient() {
       <div className="mx-auto max-w-lg px-5 pt-6 pb-8">
         <div className="space-y-6">
           <div>
-            <div className="h-7 w-24 animate-pulse rounded-lg bg-slate-100" />
-            <div className="mt-2 h-4 w-56 animate-pulse rounded-lg bg-slate-100" />
+            <div className="h-7 w-24 animate-pulse rounded-lg bg-white/[0.06]" />
+            <div className="mt-2 h-4 w-56 animate-pulse rounded-lg bg-white/[0.06]" />
           </div>
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="space-y-3">
-              <div className="h-5 w-36 animate-pulse rounded-lg bg-slate-100" />
+              <div className="h-5 w-36 animate-pulse rounded-lg bg-white/[0.06]" />
               <div className="space-y-2">
                 {[1, 2, 3].map((j) => (
-                  <div key={j} className="h-[72px] animate-pulse rounded-2xl bg-slate-100" />
+                  <div key={j} className="h-[72px] animate-pulse rounded-2xl bg-white/[0.06]" />
                 ))}
               </div>
             </div>
@@ -47,26 +47,26 @@ export function LearnPageClient() {
     <div className="mx-auto max-w-lg space-y-6 px-5 pt-6 pb-8">
       {/* Page Header */}
       <div>
-        <h1 className="text-[26px] font-bold tracking-tight text-slate-900">Learn</h1>
-        <p className="mt-1 text-[15px] leading-relaxed text-slate-500">
+        <h1 className="text-[26px] font-bold tracking-tight text-white">Learn</h1>
+        <p className="mt-1 text-[15px] leading-relaxed text-white/50">
           4 phases, 12 modules — your path to EDA mastery
         </p>
       </div>
 
       {/* Overall Progress Summary */}
       {phases.length > 0 && (
-        <div className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)]">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50">
-            <BookOpen className="h-[18px] w-[18px] text-indigo-600" />
+        <div className="flex items-center gap-3 rounded-2xl bg-[#1a1a1a] border border-white/[0.06] p-4">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06]">
+            <BookOpen className="h-[18px] w-[18px] text-green-400" />
           </div>
           <div className="flex-1">
-            <p className="text-[14px] font-semibold text-slate-800">
+            <p className="text-[14px] font-semibold text-white/90">
               {phases.reduce((a, p) => a + p.completedLessons, 0)} of{" "}
               {phases.reduce((a, p) => a + p.totalLessons, 0)} lessons complete
             </p>
-            <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+            <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-white/[0.06]">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-700"
+                className="h-full rounded-full bg-green-500 transition-all duration-700"
                 style={{
                   width: `${
                     phases.reduce((a, p) => a + p.totalLessons, 0) > 0
@@ -94,7 +94,7 @@ export function LearnPageClient() {
             {/* Phase Header */}
             <div className="mb-3 flex items-center gap-2.5">
               <div className={`h-2.5 w-2.5 rounded-full ${colors.accent}`} />
-              <h2 className="text-[13px] font-semibold uppercase tracking-wider text-slate-400">
+              <h2 className="text-[13px] font-semibold uppercase tracking-wider text-white/30">
                 {phase.phaseName}
               </h2>
               <span className={`ml-auto rounded-full ${colors.bg} px-2.5 py-0.5 text-[11px] font-semibold ${colors.text}`}>
@@ -117,11 +117,11 @@ export function LearnPageClient() {
       })}
 
       {phases.length === 0 && (
-        <div className="flex flex-col items-center gap-3 rounded-2xl bg-white py-16 text-center shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)]">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-50">
-            <BookOpen className="h-6 w-6 text-slate-300" />
+        <div className="flex flex-col items-center gap-3 rounded-2xl bg-[#1a1a1a] border border-white/[0.06] py-16 text-center">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/[0.06]">
+            <BookOpen className="h-6 w-6 text-white/30" />
           </div>
-          <p className="text-[15px] text-slate-500">No modules found. Check back soon!</p>
+          <p className="text-[15px] text-white/50">No modules found. Check back soon!</p>
         </div>
       )}
     </div>
@@ -137,15 +137,15 @@ function ModuleCard({
 }) {
   if (mod.isLocked) {
     return (
-      <div className="flex items-center gap-3.5 rounded-2xl bg-white/60 p-4 opacity-50">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-50">
-          <Lock className="h-4 w-4 text-slate-300" />
+      <div className="flex items-center gap-3.5 rounded-2xl bg-white/[0.03] border border-white/[0.04] p-4 opacity-40">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/[0.06]">
+          <Lock className="h-4 w-4 text-white/30" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[14px] font-medium text-slate-400">
+          <p className="truncate text-[14px] font-medium text-white/40">
             {mod.moduleName}
           </p>
-          <p className="text-[12px] text-slate-400/70">
+          <p className="text-[12px] text-white/20">
             Complete prerequisites to unlock
           </p>
         </div>
@@ -157,13 +157,13 @@ function ModuleCard({
 
   return (
     <Link href={`/learn/${mod.moduleId}`}>
-      <div className="group flex items-center gap-3.5 rounded-2xl bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] active:scale-[0.98] transition-transform duration-150">
+      <div className="group flex items-center gap-3.5 rounded-2xl bg-[#1a1a1a] border border-white/[0.06] p-4 active:scale-[0.98] transition-transform duration-150">
         {/* Icon */}
         <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${
-          isComplete ? "bg-emerald-50" : colors.bg
+          isComplete ? "bg-green-900/30" : colors.bg
         }`}>
           {isComplete ? (
-            <CheckCircle2 className="h-[18px] w-[18px] text-emerald-500" />
+            <CheckCircle2 className="h-[18px] w-[18px] text-green-400" />
           ) : (
             <BookOpen className={`h-4 w-4 ${colors.text}`} />
           )}
@@ -172,29 +172,27 @@ function ModuleCard({
         {/* Content */}
         <div className="min-w-0 flex-1">
           <p className={`truncate text-[14px] font-medium ${
-            isComplete ? "text-emerald-700" : "text-slate-800"
+            isComplete ? "text-green-400" : "text-white/90"
           }`}>
             {mod.moduleName}
           </p>
           <div className="mt-1.5 flex items-center gap-2.5">
-            <div className="h-1 flex-1 overflow-hidden rounded-full bg-slate-100">
+            <div className="h-1 flex-1 overflow-hidden rounded-full bg-white/[0.06]">
               <div
                 className={`h-full rounded-full transition-all duration-500 ${
-                  isComplete
-                    ? "bg-emerald-400"
-                    : "bg-gradient-to-r from-indigo-400 to-violet-400"
+                  isComplete ? "bg-green-400" : "bg-green-500"
                 }`}
                 style={{ width: `${mod.completionPercent}%` }}
               />
             </div>
-            <span className="text-[11px] font-medium text-slate-400 tabular-nums">
+            <span className="text-[11px] font-medium text-white/40 tabular-nums">
               {mod.completedLessons}/{mod.totalLessons}
             </span>
           </div>
         </div>
 
         {/* Chevron */}
-        <ChevronRight className="h-4 w-4 shrink-0 text-slate-300 group-hover:text-slate-400 transition-colors" />
+        <ChevronRight className="h-4 w-4 shrink-0 text-white/20 group-hover:text-white/40 transition-colors" />
       </div>
     </Link>
   );

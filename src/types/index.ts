@@ -39,8 +39,10 @@ export interface Lesson {
   moduleId: string;
   contentMarkdown: string | null;
   contentJson: string | null;
+  videoUrl: string | null;
   audioUrl: string | null;
   audioTranscript: string | null;
+  infographicUrl: string | null;
   protiumNote: string | null;
   labUrl: string | null;
   labInstructions: string | null;
