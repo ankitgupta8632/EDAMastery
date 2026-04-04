@@ -12,12 +12,18 @@
       "npx prisma *",
       "npx shadcn@latest *",
       "npx tsx scripts/*",
+      "npx tsx prisma/*",
+      "npx vercel *",
       "/usr/local/bin/npm *",
       "/usr/local/bin/npx *",
+      "/usr/local/bin/node *",
       "python scripts/run.py *",
       "curl http://localhost:*",
+      "curl https://eda-mastery.vercel.app/*",
       "lsof -i :*",
-      "kill *"
+      "kill *",
+      "sqlite3 *",
+      "~/.turso/turso *"
     ]
   }
 }
