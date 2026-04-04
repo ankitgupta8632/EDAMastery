@@ -1,6 +1,21 @@
 import { PrismaClient } from "@prisma/client";
+import { PrismaLibSql } from "@prisma/adapter-libsql";
+import * as dotenv from "dotenv";
+import * as path from "path";
 
-const prisma = new PrismaClient();
+dotenv.config({ path: path.resolve(process.cwd(), ".env.local"), override: true });
+
+function createPrisma(): PrismaClient {
+  const url = process.env.TURSO_DATABASE_URL;
+  const authToken = process.env.TURSO_AUTH_TOKEN;
+  if (url && authToken) {
+    const adapter = new PrismaLibSql({ url, authToken });
+    return new PrismaClient({ adapter });
+  }
+  return new PrismaClient();
+}
+
+const prisma = createPrisma();
 
 async function main() {
   console.log("Seeding EDA Mastery database...");
