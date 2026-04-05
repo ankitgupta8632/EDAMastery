@@ -78,6 +78,7 @@ model Lesson {
   videoUrl          String? // NotebookLM video overview
   audioUrl          String?
   audioTranscript   String?
+  videoTranscript   String? // VTT/SRT subtitles for video
   infographicUrl    String? // NotebookLM infographic image
   protiumNote       String? // how this applies to Protium
   labUrl            String?

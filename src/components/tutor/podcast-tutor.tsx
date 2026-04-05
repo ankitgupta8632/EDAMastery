@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +16,7 @@ import {
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { formatTimestamp } from "@/lib/transcript-utils";
+import { VoiceInputButton } from "@/components/tutor/voice-input-button";
 
 interface PodcastMessage {
   role: "user" | "host";
@@ -44,6 +45,10 @@ export function PodcastTutor({
   const [loading, setLoading] = useState(false);
   const [showTranscript, setShowTranscript] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const handleVoiceTranscribed = useCallback((text: string) => {
+    setInput((prev) => (prev ? `${prev} ${text}` : text));
+  }, []);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -98,7 +103,7 @@ export function PodcastTutor({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+        className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm"
         onClick={onClose}
       />
 
@@ -108,7 +113,7 @@ export function PodcastTutor({
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
         transition={{ type: "spring", damping: 28, stiffness: 300 }}
-        className="fixed inset-x-0 bottom-0 z-50 flex h-[75vh] flex-col rounded-t-3xl bg-[#121212] border-t border-white/[0.06]"
+        className="fixed inset-x-0 bottom-0 z-[60] flex h-[75vh] flex-col rounded-t-3xl bg-[#121212] border-t border-white/[0.06]"
       >
         {/* Header */}
         <div className="flex-shrink-0 border-b border-white/[0.06] px-5 py-4">
@@ -240,6 +245,10 @@ export function PodcastTutor({
             className="flex-1 rounded-full"
             disabled={loading}
             autoFocus
+          />
+          <VoiceInputButton
+            onTranscribed={handleVoiceTranscribed}
+            disabled={loading}
           />
           <Button
             type="submit"

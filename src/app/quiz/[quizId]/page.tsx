@@ -1,25 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   CheckCircle2,
   XCircle,
   Trophy,
   ArrowRight,
-  RotateCcw,
+  ChevronLeft,
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import type { Quiz, Question, QuizAttemptResult } from "@/types";
 
-export default function QuizPage() {
+export default function QuizPage(): React.JSX.Element {
   const params = useParams();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const quizId = params.quizId as string;
   const lessonId = searchParams.get("lessonId") ?? quizId;
 
@@ -56,7 +54,6 @@ export default function QuizPage() {
 
   const handleNext = async () => {
     if (isLastQuestion) {
-      // Submit quiz
       setSubmitting(true);
       try {
         const finalAnswers = { ...answers };
@@ -90,7 +87,7 @@ export default function QuizPage() {
   if (loading) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-8">
-        <div className="h-64 animate-pulse rounded-xl bg-slate-100" />
+        <div className="h-64 animate-pulse rounded-2xl bg-white/[0.06]" />
       </div>
     );
   }
@@ -98,73 +95,156 @@ export default function QuizPage() {
   if (!quiz || questions.length === 0) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-8 text-center">
-        <p className="text-slate-500">No quiz found for this lesson.</p>
+        <p className="text-white/50">No quiz found for this lesson.</p>
       </div>
     );
   }
 
-  // Results screen
+  // ── Results screen ──────────────────────────────────────────
   if (result) {
     const percentage = Math.round(
       (result.correctCount / result.totalQuestions) * 100
     );
+    const isPerfect = percentage === 100;
+
     return (
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mx-auto flex max-w-2xl flex-col items-center gap-6 px-4 py-12 text-center"
+        className="mx-auto max-w-2xl px-4 py-8 pb-24 space-y-8"
       >
-        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-indigo-100">
-          <Trophy className="h-10 w-10 text-indigo-500" />
+        {/* Score header */}
+        <div className="text-center space-y-4">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.2 }}
+            className={cn(
+              "mx-auto flex h-20 w-20 items-center justify-center rounded-full",
+              isPerfect ? "bg-green-900/30" : percentage >= 70 ? "bg-amber-900/30" : "bg-red-900/30"
+            )}
+          >
+            <Trophy className={cn(
+              "h-10 w-10",
+              isPerfect ? "text-green-400" : percentage >= 70 ? "text-amber-400" : "text-red-400"
+            )} />
+          </motion.div>
+
+          <h1 className="text-[22px] font-bold text-white">Quiz Complete!</h1>
+
+          <div className={cn(
+            "text-[48px] font-bold",
+            isPerfect ? "text-green-400" : percentage >= 70 ? "text-amber-400" : "text-red-400"
+          )}>
+            {percentage}%
+          </div>
+
+          <div className="flex items-center justify-center gap-3">
+            <span className="rounded-full bg-white/[0.06] px-4 py-1.5 text-[13px] font-medium text-white/60">
+              {result.correctCount}/{result.totalQuestions} correct
+            </span>
+            <span className="rounded-full bg-green-900/20 border border-green-800/30 px-4 py-1.5 text-[13px] font-medium text-green-400">
+              +{result.xpEarned} XP
+            </span>
+          </div>
         </div>
-        <h1 className="text-2xl font-bold text-slate-800">Quiz Complete!</h1>
 
-        <div className="text-5xl font-bold text-indigo-600">{percentage}%</div>
+        {/* All questions review */}
+        <div className="space-y-4">
+          <h2 className="text-[15px] font-semibold text-white/70">
+            Answer Review
+          </h2>
 
-        <div className="flex gap-4">
-          <Badge variant="outline" className="px-4 py-1">
-            {result.correctCount}/{result.totalQuestions} correct
-          </Badge>
-          <Badge variant="outline" className="px-4 py-1 text-indigo-600">
-            +{result.xpEarned} XP
-          </Badge>
-        </div>
+          {questions.map((q, idx) => {
+            const userAnswer = answers[q.id];
+            const wasCorrect = userAnswer === q.correctAnswer;
 
-        {/* Review wrong answers */}
-        {result.correctCount < result.totalQuestions && (
-          <div className="w-full space-y-3 text-left">
-            <h3 className="text-sm font-semibold text-slate-600">
-              Review incorrect answers:
-            </h3>
-            {questions
-              .filter((q) => answers[q.id] !== q.correctAnswer)
-              .map((q) => (
-                <Card key={q.id} className="border-red-100">
-                  <CardContent className="py-3 space-y-1">
-                    <p className="text-sm font-medium text-slate-700">
+            return (
+              <motion.div
+                key={q.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + idx * 0.05 }}
+                className={cn(
+                  "rounded-2xl border p-4 space-y-3",
+                  wasCorrect
+                    ? "border-green-800/30 bg-green-900/10"
+                    : "border-red-800/30 bg-red-900/10"
+                )}
+              >
+                {/* Question header */}
+                <div className="flex items-start gap-3">
+                  <div className={cn(
+                    "flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full mt-0.5",
+                    wasCorrect ? "bg-green-900/40" : "bg-red-900/40"
+                  )}>
+                    {wasCorrect ? (
+                      <CheckCircle2 className="h-3.5 w-3.5 text-green-400" />
+                    ) : (
+                      <XCircle className="h-3.5 w-3.5 text-red-400" />
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-[13px] font-medium text-white/80">
+                      <span className="text-white/40 mr-1.5">Q{idx + 1}.</span>
                       {q.questionText}
                     </p>
-                    <p className="text-xs text-red-500">
-                      Your answer: {answers[q.id]}
+                  </div>
+                </div>
+
+                {/* Answer details */}
+                <div className="ml-9 space-y-1.5">
+                  {!wasCorrect && (
+                    <p className="text-[12px] text-red-400/80">
+                      Your answer: <span className="font-medium">{userAnswer}</span>
                     </p>
-                    <p className="text-xs text-green-600">
-                      Correct: {q.correctAnswer}
+                  )}
+                  <p className="text-[12px] text-green-400/80">
+                    {wasCorrect ? "Your answer" : "Correct answer"}:{" "}
+                    <span className="font-medium">{q.correctAnswer}</span>
+                  </p>
+                </div>
+
+                {/* Explanation */}
+                {q.explanation && (
+                  <div className="ml-9 rounded-xl bg-white/[0.03] px-3 py-2.5">
+                    <p className="text-[12px] leading-relaxed text-white/50">
+                      {q.explanation}
                     </p>
-                    {q.explanation && (
-                      <p className="text-xs text-slate-500 mt-1">
-                        {q.explanation}
-                      </p>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-          </div>
-        )}
+                  </div>
+                )}
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Action buttons */}
+        <div className="flex gap-3">
+          <button
+            onClick={() => router.back()}
+            className="flex-1 rounded-2xl bg-white/[0.06] py-3.5 text-[14px] font-medium text-white/60 active:scale-[0.98] transition-transform"
+          >
+            <ChevronLeft className="inline h-4 w-4 mr-1" />
+            Back to Lesson
+          </button>
+          <button
+            onClick={() => {
+              setResult(null);
+              setCurrentIdx(0);
+              setSelectedAnswer(null);
+              setShowResult(false);
+              setAnswers({});
+            }}
+            className="flex-1 rounded-2xl bg-green-600 py-3.5 text-[14px] font-semibold text-white active:scale-[0.98] transition-transform hover:bg-green-500"
+          >
+            Retake Quiz
+          </button>
+        </div>
       </motion.div>
     );
   }
 
-  // Question view
+  // ── Question view ───────────────────────────────────────────
   const options =
     currentQ.questionType === "true_false"
       ? ["True", "False"]
@@ -174,19 +254,19 @@ export default function QuizPage() {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="mx-auto max-w-2xl space-y-6 px-4 py-6"
+      className="mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24"
     >
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-bold text-slate-800">Quiz</h1>
-        <Badge variant="outline">
+        <h1 className="text-[18px] font-bold text-white">Quiz</h1>
+        <span className="rounded-full bg-white/[0.06] px-3 py-1 text-[12px] font-medium text-white/50">
           {currentIdx + 1} / {questions.length}
-        </Badge>
+        </span>
       </div>
 
       {/* Progress bar */}
-      <div className="h-1.5 rounded-full bg-slate-100">
+      <div className="h-1.5 rounded-full bg-white/[0.06]">
         <div
-          className="h-1.5 rounded-full bg-indigo-500 transition-all"
+          className="h-1.5 rounded-full bg-green-500 transition-all"
           style={{
             width: `${((currentIdx + (showResult ? 1 : 0)) / questions.length) * 100}%`,
           }}
@@ -199,79 +279,76 @@ export default function QuizPage() {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
+          className="space-y-6"
         >
-          <Card>
-            <CardContent className="space-y-6 py-6">
-              <p className="text-base font-medium text-slate-800">
-                {currentQ.questionText}
+          <p className="text-[16px] font-medium leading-relaxed text-white/90">
+            {currentQ.questionText}
+          </p>
+
+          <div className="space-y-2.5">
+            {options.map((option) => {
+              const isSelected = selectedAnswer === option;
+              const isCorrectOption = option === currentQ.correctAnswer;
+
+              return (
+                <button
+                  key={option}
+                  onClick={() => handleSelect(option)}
+                  disabled={showResult}
+                  className={cn(
+                    "w-full rounded-xl border px-4 py-3.5 text-left text-[14px] font-medium transition-all active:scale-[0.98]",
+                    !showResult &&
+                      "border-white/[0.06] bg-white/[0.03] text-white/70 hover:border-green-800/50 hover:bg-green-900/10",
+                    showResult && isCorrectOption &&
+                      "border-green-700/50 bg-green-900/20 text-green-400",
+                    showResult && isSelected && !isCorrectOption &&
+                      "border-red-700/50 bg-red-900/20 text-red-400",
+                    showResult && !isSelected && !isCorrectOption &&
+                      "border-white/[0.03] text-white/30"
+                  )}
+                >
+                  <div className="flex items-center justify-between">
+                    <span>{option}</span>
+                    {showResult && isCorrectOption && (
+                      <CheckCircle2 className="h-4 w-4 text-green-400" />
+                    )}
+                    {showResult && isSelected && !isCorrectOption && (
+                      <XCircle className="h-4 w-4 text-red-400" />
+                    )}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Explanation */}
+          {showResult && currentQ.explanation && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              className="rounded-xl bg-white/[0.03] border border-white/[0.06] p-4"
+            >
+              <p className="text-[13px] leading-relaxed text-white/50">
+                {currentQ.explanation}
               </p>
+            </motion.div>
+          )}
 
-              <div className="space-y-2">
-                {options.map((option) => {
-                  const isSelected = selectedAnswer === option;
-                  const isCorrectOption = option === currentQ.correctAnswer;
-
-                  return (
-                    <button
-                      key={option}
-                      onClick={() => handleSelect(option)}
-                      disabled={showResult}
-                      className={cn(
-                        "w-full rounded-lg border px-4 py-3 text-left text-sm font-medium transition-all",
-                        !showResult &&
-                          "border-slate-200 hover:border-indigo-300 hover:bg-indigo-50",
-                        showResult && isCorrectOption &&
-                          "border-green-300 bg-green-50 text-green-700",
-                        showResult && isSelected && !isCorrectOption &&
-                          "border-red-300 bg-red-50 text-red-700",
-                        showResult && !isSelected && !isCorrectOption &&
-                          "border-slate-100 text-slate-400"
-                      )}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span>{option}</span>
-                        {showResult && isCorrectOption && (
-                          <CheckCircle2 className="h-4 w-4 text-green-500" />
-                        )}
-                        {showResult && isSelected && !isCorrectOption && (
-                          <XCircle className="h-4 w-4 text-red-500" />
-                        )}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Explanation */}
-              {showResult && currentQ.explanation && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  className="rounded-lg bg-slate-50 p-3"
-                >
-                  <p className="text-xs text-slate-600">
-                    {currentQ.explanation}
-                  </p>
-                </motion.div>
-              )}
-
-              {/* Next button */}
-              {showResult && (
-                <Button
-                  onClick={handleNext}
-                  disabled={submitting}
-                  className="w-full bg-indigo-600 hover:bg-indigo-700"
-                >
-                  {submitting
-                    ? "Submitting..."
-                    : isLastQuestion
-                    ? "See Results"
-                    : "Next Question"}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              )}
-            </CardContent>
-          </Card>
+          {/* Next button */}
+          {showResult && (
+            <button
+              onClick={handleNext}
+              disabled={submitting}
+              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-green-600 py-3.5 text-[15px] font-semibold text-white active:scale-[0.98] transition-transform hover:bg-green-500 disabled:opacity-60"
+            >
+              {submitting
+                ? "Submitting..."
+                : isLastQuestion
+                ? "See Results"
+                : "Next Question"}
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          )}
         </motion.div>
       </AnimatePresence>
     </motion.div>

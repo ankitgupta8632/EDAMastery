@@ -42,6 +42,7 @@ export interface Lesson {
   videoUrl: string | null;
   audioUrl: string | null;
   audioTranscript: string | null;
+  videoTranscript: string | null;
   infographicUrl: string | null;
   protiumNote: string | null;
   labUrl: string | null;

@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
@@ -23,12 +23,18 @@ import {
   Clock,
   Cpu,
   Video,
+  Maximize2,
 } from "lucide-react";
 import { toast } from "sonner";
 import type { Lesson } from "@/types";
 import { AskClaude } from "@/components/tutor/ask-claude";
+import type { AskClaudeHandle } from "@/components/tutor/ask-claude";
 import { PodcastTutor } from "@/components/tutor/podcast-tutor";
+import { TextSelectionPopover } from "@/components/tutor/text-selection-popover";
 import { parseVTT, getTranscriptContext } from "@/lib/transcript-utils";
+import { SeekBar } from "@/components/media/seekbar";
+import { SyncedCaptions } from "@/components/media/synced-captions";
+import { FullscreenAudio } from "@/components/media/fullscreen-audio";
 
 const SPEED_OPTIONS = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 
@@ -38,7 +44,7 @@ export default function LessonViewerPage() {
   const moduleId = params.moduleId as string;
   const lessonId = params.lessonId as string;
 
-  const [lesson, setLesson] = useState<Lesson | null>(null);
+  const [lesson, setLesson] = useState<(Lesson & { quizId?: string | null; hasQuiz?: boolean }) | null>(null);
   const [loading, setLoading] = useState(true);
   const [confidence, setConfidence] = useState(3);
   const [completing, setCompleting] = useState(false);
@@ -56,6 +62,9 @@ export default function LessonViewerPage() {
     moduleId?: string;
     moduleName?: string;
   } | null>(null);
+
+  const contentRef = useRef<HTMLDivElement>(null);
+  const askClaudeRef = useRef<AskClaudeHandle>(null);
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
@@ -183,21 +192,10 @@ export default function LessonViewerPage() {
           <>
             {/* 1. Video Overview (highest priority) */}
             {lesson.videoUrl && (
-              <div className="rounded-2xl overflow-hidden border border-white/[0.06]">
-                <div className="flex items-center gap-2 px-4 py-2.5 bg-white/[0.03]">
-                  <Video className="h-3.5 w-3.5 text-white/40" />
-                  <span className="text-[12px] font-medium uppercase tracking-wider text-white/40">Video Overview</span>
-                </div>
-                <div className="aspect-video bg-black">
-                  <video
-                    src={lesson.videoUrl}
-                    controls
-                    playsInline
-                    className="h-full w-full"
-                    preload="metadata"
-                  />
-                </div>
-              </div>
+              <VideoPlayer
+                src={lesson.videoUrl}
+                transcript={lesson.videoTranscript ?? undefined}
+              />
             )}
 
             {/* 2. Audio Overview */}
@@ -210,7 +208,18 @@ export default function LessonViewerPage() {
               />
             )}
 
-            {/* 3. Text content — Medium-style reading, no box */}
+            {/* 3. Infographic — below audio, no box */}
+            {lesson.infographicUrl && (
+              <img
+                src={lesson.infographicUrl}
+                alt={`${lesson.title} infographic`}
+                className="w-full rounded-xl"
+                loading="lazy"
+              />
+            )}
+
+            {/* 4. Text content + Protium note — selectable for inline explain */}
+            <div ref={contentRef} className="select-text">
             {lesson.contentMarkdown && (
               <div className="py-2">
                 <div className="prose prose-sm max-w-none
@@ -239,42 +248,28 @@ export default function LessonViewerPage() {
               </div>
             )}
 
-            {/* Protium Note */}
+            {/* Protium Note — no box, flows like content */}
             {lesson.protiumNote && (
-              <div className="rounded-2xl bg-amber-900/20 border border-amber-800/30 p-5">
-                <div className="flex items-center gap-2.5 mb-3">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-900/40">
-                    <Cpu className="h-3.5 w-3.5 text-amber-400" />
-                  </div>
-                  <p className="text-[12px] font-bold uppercase tracking-wider text-amber-400">
-                    Protium Note
+              <div className="py-2">
+                <div className="flex items-center gap-2.5 mb-4">
+                  <Cpu className="h-4 w-4 text-amber-400" />
+                  <p className="text-[13px] font-bold uppercase tracking-wider text-amber-400">
+                    How This Applies to Protium
                   </p>
                 </div>
-                <div className="prose prose-sm max-w-none prose-p:text-[14px] prose-p:leading-[1.7] prose-p:text-amber-300/70">
+                <div className="prose prose-sm max-w-none
+                  prose-headings:text-amber-300 prose-headings:font-bold
+                  prose-p:text-[15px] prose-p:leading-[1.8] prose-p:text-amber-200/60
+                  prose-li:text-[15px] prose-li:text-amber-200/60 prose-li:leading-[1.7]
+                  prose-strong:text-amber-300 prose-strong:font-semibold
+                  prose-code:bg-amber-900/20 prose-code:text-amber-300 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:text-[13px]">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {lesson.protiumNote}
                   </ReactMarkdown>
                 </div>
               </div>
             )}
-
-            {/* Infographic */}
-            {lesson.infographicUrl && (
-              <div className="rounded-2xl overflow-hidden border border-white/[0.06]">
-                <div className="flex items-center gap-2 px-4 py-2.5 bg-white/[0.03]">
-                  <svg className="h-3.5 w-3.5 text-white/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" /><line x1="9" y1="3" x2="9" y2="21" /><line x1="15" y1="3" x2="15" y2="21" /><line x1="3" y1="9" x2="21" y2="9" /><line x1="3" y1="15" x2="21" y2="15" /></svg>
-                  <span className="text-[12px] font-medium uppercase tracking-wider text-white/40">Visual Reference</span>
-                </div>
-                <div className="bg-white/[0.02] p-2">
-                  <img
-                    src={lesson.infographicUrl}
-                    alt={`${lesson.title} infographic`}
-                    className="w-full rounded-xl"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-            )}
+            </div>{/* end contentRef wrapper */}
 
             {/* Lab link */}
             {lesson.labUrl && (
@@ -287,6 +282,18 @@ export default function LessonViewerPage() {
                 <ExternalLink className="h-4 w-4" />
                 Open Lab Exercise
               </a>
+            )}
+
+            {/* Quiz */}
+            {lesson.quizId && (
+              <Link
+                href={`/quiz/${lesson.quizId}?lessonId=${lessonId}`}
+                className="flex w-full items-center justify-center gap-2.5 rounded-2xl bg-[#1a1a1a] border border-white/[0.06] py-4 text-[15px] font-semibold text-white active:scale-[0.98] transition-transform hover:bg-white/[0.04]"
+              >
+                <CheckCircle2 className="h-4.5 w-4.5 text-green-400" />
+                Take Quiz
+                <ArrowRight className="h-4 w-4 text-white/40" />
+              </Link>
             )}
 
             {/* Confidence + Complete / Celebration */}
@@ -341,7 +348,16 @@ export default function LessonViewerPage() {
           </>
         )}
 
-        {hasContent && <AskClaude lessonId={lessonId} lessonTitle={lesson?.title ?? ""} />}
+        {hasContent && (
+          <>
+            <AskClaude ref={askClaudeRef} lessonId={lessonId} lessonTitle={lesson?.title ?? ""} />
+            <TextSelectionPopover
+              containerRef={contentRef}
+              onAskAbout={(text) => askClaudeRef.current?.openWithContext(text)}
+              lessonId={lessonId}
+            />
+          </>
+        )}
       </div>
     </>
   );
@@ -478,6 +494,7 @@ function AudioPlayer({
   const [duration, setDuration] = useState(0);
   const [speed, setSpeed] = useState(1);
   const [showPodcastTutor, setShowPodcastTutor] = useState(false);
+  const [showFullscreen, setShowFullscreen] = useState(false);
   const [pausedTimestamp, setPausedTimestamp] = useState(0);
   const [pausedTranscript, setPausedTranscript] = useState("");
 
@@ -534,14 +551,6 @@ function AudioPlayer({
     }
   };
 
-  const formatTime = (s: number) => {
-    const mins = Math.floor(s / 60);
-    const secs = Math.floor(s % 60);
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
-  };
-
-  const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
-
   return (
     <>
       <div className="overflow-hidden rounded-2xl bg-[#1a1a1a] border border-white/[0.06] text-white">
@@ -570,36 +579,30 @@ function AudioPlayer({
             </button>
           </div>
 
-          {/* Progress bar */}
-          <div className="space-y-1.5">
-            <div
-              className="relative h-1.5 w-full cursor-pointer rounded-full bg-white/[0.06]"
-              onClick={(e) => {
-                if (audioRef.current && duration > 0) {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const percent = (e.clientX - rect.left) / rect.width;
-                  audioRef.current.currentTime = percent * duration;
-                }
-              }}
-            >
-              <div
-                className="absolute inset-y-0 left-0 rounded-full bg-green-500 transition-all duration-100"
-                style={{ width: `${progressPercent}%` }}
-              />
-              <div
-                className="absolute top-1/2 -translate-y-1/2 h-3 w-3 rounded-full bg-white shadow-md transition-all duration-100"
-                style={{ left: `calc(${progressPercent}% - 6px)` }}
-              />
-            </div>
-            <div className="flex justify-between text-[11px] text-white/30 tabular-nums">
-              <span>{formatTime(currentTime)}</span>
-              <span>{formatTime(duration)}</span>
-            </div>
-          </div>
+          {/* Progress bar with touch drag support */}
+          <SeekBar
+            currentTime={currentTime}
+            duration={duration}
+            onSeek={(time) => {
+              if (audioRef.current) audioRef.current.currentTime = time;
+            }}
+          />
 
-          {/* Speed control + Ask button */}
+          {/* Speed control + Fullscreen + Ask button */}
           <div className="flex items-center justify-between">
-            <div className="w-20" />
+            <button
+              onClick={() => {
+                if (audioRef.current && playing) {
+                  audioRef.current.pause();
+                  setPlaying(false);
+                }
+                setShowFullscreen(true);
+              }}
+              className="flex items-center gap-1.5 rounded-full bg-white/[0.06] px-3 py-1.5 text-[12px] font-medium text-white/50 hover:bg-white/[0.1] transition-all duration-200 active:scale-[0.95]"
+            >
+              <Maximize2 className="h-3 w-3" />
+              Fullscreen
+            </button>
             <button
               onClick={cycleSpeed}
               className="rounded-full bg-white/[0.06] px-4 py-1.5 text-[12px] font-semibold text-white/50 hover:bg-white/[0.1] transition-all duration-200 active:scale-[0.95]"
@@ -621,8 +624,27 @@ function AudioPlayer({
               <div className="w-20" />
             )}
           </div>
+
+          {/* Synced captions */}
+          {hasTranscript && (
+            <SyncedCaptions segments={transcriptSegments} currentTime={currentTime} />
+          )}
         </div>
       </div>
+
+      {/* Fullscreen Audio */}
+      <AnimatePresence>
+        {showFullscreen && hasTranscript && (
+          <FullscreenAudio
+            src={src}
+            segments={transcriptSegments}
+            lessonTitle={lessonTitle}
+            onClose={() => setShowFullscreen(false)}
+            initialTime={currentTime}
+            initialPlaying={playing}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Podcast Tutor Panel */}
       {showPodcastTutor && (
@@ -636,5 +658,137 @@ function AudioPlayer({
         />
       )}
     </>
+  );
+}
+
+/* --- Video Player --------------------------------------------------------- */
+
+function VideoPlayer({
+  src,
+  transcript,
+}: {
+  src: string;
+  transcript?: string;
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [captionsOn, setCaptionsOn] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const transcriptSegments = transcript ? parseVTT(transcript) : [];
+  const hasTranscript = transcriptSegments.length > 0;
+
+  // Generate a Blob URL for native <track> subtitles (works in native fullscreen)
+  const trackUrl = useMemo(() => {
+    if (!transcript) return null;
+    // Ensure it starts with WEBVTT header
+    const vtt = transcript.trim().startsWith("WEBVTT") ? transcript : `WEBVTT\n\n${transcript}`;
+    const blob = new Blob([vtt], { type: "text/vtt" });
+    return URL.createObjectURL(blob);
+  }, [transcript]);
+
+  // Clean up Blob URL
+  useEffect(() => {
+    return () => { if (trackUrl) URL.revokeObjectURL(trackUrl); };
+  }, [trackUrl]);
+
+  const activeSegment = useMemo(() => {
+    if (!hasTranscript) return null;
+    const current = transcriptSegments.find(
+      (seg) => seg.startTime <= currentTime && seg.endTime >= currentTime
+    );
+    if (current) return current;
+    const past = transcriptSegments.filter((seg) => seg.endTime <= currentTime);
+    return past.length > 0 ? past[past.length - 1] : null;
+  }, [transcriptSegments, hasTranscript, currentTime]);
+
+  // Track fullscreen state
+  useEffect(() => {
+    const handleFsChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFsChange);
+    return () => document.removeEventListener("fullscreenchange", handleFsChange);
+  }, []);
+
+  const toggleFullscreen = () => {
+    const container = containerRef.current;
+    if (!container) return;
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      container.requestFullscreen();
+    }
+  };
+
+  return (
+    <div className="rounded-2xl overflow-hidden border border-white/[0.06]">
+      <div className="flex items-center justify-between px-4 py-2.5 bg-white/[0.03]">
+        <div className="flex items-center gap-2">
+          <Video className="h-3.5 w-3.5 text-white/40" />
+          <span className="text-[12px] font-medium uppercase tracking-wider text-white/40">Video Overview</span>
+        </div>
+        <div className="flex items-center gap-2">
+          {hasTranscript && (
+            <button
+              onClick={() => setCaptionsOn(!captionsOn)}
+              className={`text-[11px] font-medium px-2.5 py-1 rounded-full transition-colors ${
+                captionsOn
+                  ? "bg-white/[0.1] text-white/70"
+                  : "bg-white/[0.04] text-white/30"
+              }`}
+            >
+              CC {captionsOn ? "ON" : "OFF"}
+            </button>
+          )}
+          <button
+            onClick={toggleFullscreen}
+            className="text-white/30 hover:text-white/60 transition-colors"
+          >
+            <Maximize2 className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      </div>
+      {/* Video container — this div goes fullscreen, so subtitles stay visible */}
+      <div ref={containerRef} className="relative aspect-video bg-black">
+        <video
+          ref={videoRef}
+          src={src}
+          controls
+          playsInline
+          className="h-full w-full"
+          preload="metadata"
+          onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
+        >
+          {trackUrl && (
+            <track kind="subtitles" src={trackUrl} srcLang="en" label="English" default />
+          )}
+        </video>
+        {/* YouTube-style subtitle overlay — single line */}
+        {captionsOn && activeSegment && (
+          <div className={`absolute inset-x-0 flex justify-center pointer-events-none px-4 ${
+            isFullscreen ? "bottom-20" : "bottom-12"
+          }`}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeSegment.startTime}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="rounded-lg bg-black/80 px-4 py-2 max-w-[90%]"
+              >
+                <p className={`leading-snug text-white font-medium text-center truncate ${
+                  isFullscreen ? "text-[22px]" : "text-[15px] sm:text-[17px]"
+                }`}>
+                  {activeSegment.text}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
