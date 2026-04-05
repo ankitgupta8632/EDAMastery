@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { Sparkles, MessageCircleQuestion, X, Loader2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Sparkles, MessageCircleQuestion, X, Loader2, Send } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { VoiceInputButton } from "@/components/tutor/voice-input-button";
@@ -12,140 +13,79 @@ interface TextSelectionPopoverProps {
   lessonId: string;
 }
 
-interface PopoverState {
-  visible: boolean;
-  selectedText: string;
-  x: number;
-  y: number;
-  above: boolean;
-}
-
 export function TextSelectionPopover({
   containerRef,
   onAskAbout,
   lessonId,
-}: TextSelectionPopoverProps): React.JSX.Element | null {
-  const [popover, setPopover] = useState<PopoverState>({
-    visible: false,
-    selectedText: "",
-    x: 0,
-    y: 0,
-    above: true,
-  });
+}: TextSelectionPopoverProps): React.JSX.Element {
+  const [selectedText, setSelectedText] = useState<string | null>(null);
   const [explanation, setExplanation] = useState<string | null>(null);
   const [explaining, setExplaining] = useState(false);
   const [followUp, setFollowUp] = useState("");
-  const popoverRef = useRef<HTMLDivElement>(null);
-  const scrollYRef = useRef(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const dismiss = useCallback(() => {
-    setPopover({ visible: false, selectedText: "", x: 0, y: 0, above: true });
-    setExplanation(null);
-    setExplaining(false);
-    setFollowUp("");
-  }, []);
-
-  const handleSelectionChange = useCallback(() => {
-    const selection = window.getSelection();
-    if (!selection || selection.isCollapsed) return;
-
-    const text = selection.toString().trim();
-    if (text.length < 3) return;
-
+  // Listen for text selection in the container
+  useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    const anchorNode = selection.anchorNode;
-    if (!anchorNode || !container.contains(anchorNode)) return;
 
-    const range = selection.getRangeAt(0);
-    const rect = range.getBoundingClientRect();
+    const handleSelection = () => {
+      setTimeout(() => {
+        const selection = window.getSelection();
+        if (!selection || selection.isCollapsed) return;
 
-    const viewportWidth = window.innerWidth;
-    const popoverWidth = 280;
-    let x = rect.left + rect.width / 2 - popoverWidth / 2;
-    x = Math.max(8, Math.min(viewportWidth - popoverWidth - 8, x));
+        const text = selection.toString().trim();
+        if (text.length < 3) return;
 
-    const above = rect.top > 120;
-    // When above: position bottom of popover at selection top
-    // When below: position top of popover at selection bottom
-    const y = above ? rect.top - 8 : rect.bottom + 8;
+        const anchorNode = selection.anchorNode;
+        if (!anchorNode || !container.contains(anchorNode)) return;
 
-    scrollYRef.current = window.scrollY;
-    setPopover({ visible: true, selectedText: text, x, y, above });
-    setExplanation(null);
-    setExplaining(false);
-    setFollowUp("");
+        setSelectedText(text);
+        setExplanation(null);
+        setExplaining(false);
+        setFollowUp("");
+      }, 100);
+    };
+
+    container.addEventListener("mouseup", handleSelection);
+    container.addEventListener("touchend", handleSelection);
+
+    return () => {
+      container.removeEventListener("mouseup", handleSelection);
+      container.removeEventListener("touchend", handleSelection);
+    };
   }, [containerRef]);
 
-  // Listen for selection events
+  // Auto-scroll to bottom when explanation arrives
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [explanation]);
 
-    const onMouseUp = () => {
-      setTimeout(handleSelectionChange, 50);
-    };
-
-    const onTouchEnd = () => {
-      setTimeout(handleSelectionChange, 150);
-    };
-
-    container.addEventListener("mouseup", onMouseUp);
-    container.addEventListener("touchend", onTouchEnd);
-
-    return () => {
-      container.removeEventListener("mouseup", onMouseUp);
-      container.removeEventListener("touchend", onTouchEnd);
-    };
-  }, [containerRef, handleSelectionChange]);
-
-  // Dismiss on click outside or significant scroll (>80px)
-  useEffect(() => {
-    if (!popover.visible) return;
-
-    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
-      if (popoverRef.current && !popoverRef.current.contains(e.target as Node)) {
-        dismiss();
-      }
-    };
-
-    const handleScroll = () => {
-      if (Math.abs(window.scrollY - scrollYRef.current) > 80) {
-        dismiss();
-      }
-    };
-
-    const timeout = setTimeout(() => {
-      document.addEventListener("mousedown", handleClickOutside);
-      document.addEventListener("touchstart", handleClickOutside);
-      window.addEventListener("scroll", handleScroll, { passive: true });
-    }, 200);
-
-    return () => {
-      clearTimeout(timeout);
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("touchstart", handleClickOutside);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [popover.visible, dismiss]);
+  const dismiss = useCallback(() => {
+    setSelectedText(null);
+    setExplanation(null);
+    setExplaining(false);
+    setFollowUp("");
+    // Clear the browser selection
+    window.getSelection()?.removeAllRanges();
+  }, []);
 
   const handleExplain = async () => {
+    if (!selectedText) return;
     setExplaining(true);
     try {
       const res = await fetch("/api/tutor", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          question: `Explain the following concept from this EDA lesson briefly (2-3 paragraphs max): "${popover.selectedText}"`,
+          question: `Explain the following concept from this EDA lesson briefly (2-3 paragraphs max): "${selectedText}"`,
           lessonId,
         }),
       });
       const data = await res.json();
-      if (res.ok) {
-        setExplanation(data.answer);
-      } else {
-        setExplanation(data.error ?? "Could not explain. Try again.");
-      }
+      setExplanation(res.ok ? data.answer : (data.error ?? "Could not explain. Try again."));
     } catch {
       setExplanation("Network error. Try again.");
     } finally {
@@ -153,101 +93,125 @@ export function TextSelectionPopover({
     }
   };
 
-  const handleAskAbout = () => {
-    onAskAbout(popover.selectedText);
+  const handleAskClaude = () => {
+    if (!selectedText) return;
+    onAskAbout(selectedText);
     dismiss();
   };
 
-  const handleFollowUpSubmit = () => {
-    if (!followUp.trim()) return;
-    onAskAbout(`${popover.selectedText}\n\nFollow-up: ${followUp.trim()}`);
+  const handleFollowUp = () => {
+    if (!followUp.trim() || !selectedText) return;
+    onAskAbout(`${selectedText}\n\nFollow-up: ${followUp.trim()}`);
     dismiss();
   };
-
-  if (!popover.visible) return null;
 
   return (
-    <div
-      ref={popoverRef}
-      className="fixed z-[60] w-[280px] rounded-2xl bg-[#1a1a1a] border border-white/[0.08] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150"
-      style={{
-        left: popover.x,
-        top: popover.above ? undefined : popover.y,
-        bottom: popover.above ? `calc(100vh - ${popover.y}px)` : undefined,
-      }}
-    >
-      {/* Selected text preview */}
-      <div className="px-4 pt-3 pb-2">
-        <p className="text-[12px] text-white/50 line-clamp-2 italic">
-          &ldquo;{popover.selectedText.slice(0, 120)}{popover.selectedText.length > 120 ? "..." : ""}&rdquo;
-        </p>
-      </div>
+    <AnimatePresence>
+      {selectedText && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] bg-black/40"
+            onClick={dismiss}
+          />
 
-      {/* Action buttons */}
-      {!explanation && !explaining && (
-        <div className="px-3 pb-3 flex items-center gap-2">
-          <button
-            onClick={handleExplain}
-            className="flex-1 flex items-center justify-center gap-1.5 rounded-xl bg-green-600 px-3 py-2 text-[12px] font-medium text-white active:scale-[0.97] transition-transform"
+          {/* Bottom sheet */}
+          <motion.div
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ type: "spring", damping: 28, stiffness: 300 }}
+            className="fixed inset-x-0 bottom-0 z-[60] flex max-h-[70vh] flex-col rounded-t-2xl bg-[#121212] border-t border-white/[0.06]"
           >
-            <Sparkles className="h-3 w-3" />
-            Explain this
-          </button>
-          <button
-            onClick={handleAskAbout}
-            className="flex-1 flex items-center justify-center gap-1.5 rounded-xl bg-white/[0.06] px-3 py-2 text-[12px] font-medium text-white/70 active:scale-[0.97] transition-transform"
-          >
-            <MessageCircleQuestion className="h-3 w-3" />
-            Ask Claude
-          </button>
-        </div>
-      )}
+            {/* Header with selected text */}
+            <div className="flex-shrink-0 border-b border-white/[0.06] px-5 py-4">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-green-500" />
+                  <span className="text-[13px] font-semibold text-white">Selected Text</span>
+                </div>
+                <button
+                  onClick={dismiss}
+                  className="flex h-7 w-7 items-center justify-center rounded-full bg-white/[0.06] text-white/40 hover:text-white"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </div>
+              <p className="text-[13px] text-white/50 italic line-clamp-3">
+                &ldquo;{selectedText.slice(0, 200)}{selectedText.length > 200 ? "..." : ""}&rdquo;
+              </p>
 
-      {/* Loading */}
-      {explaining && (
-        <div className="px-4 pb-3 flex items-center gap-2 text-white/50 text-[13px]">
-          <Loader2 className="h-3.5 w-3.5 animate-spin" />
-          Explaining...
-        </div>
-      )}
-
-      {/* Explanation result */}
-      {explanation && (
-        <div className="border-t border-white/[0.06]">
-          <div className="px-4 py-3 max-h-[40vh] overflow-y-auto">
-            <div className="prose prose-sm prose-invert max-w-none text-[13px]">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {explanation}
-              </ReactMarkdown>
+              {/* Action buttons — always visible */}
+              {!explanation && !explaining && (
+                <div className="flex items-center gap-2 mt-3">
+                  <button
+                    onClick={handleExplain}
+                    className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-green-600 py-2.5 text-[13px] font-medium text-white active:scale-[0.98] transition-transform"
+                  >
+                    <Sparkles className="h-3.5 w-3.5" />
+                    Explain this
+                  </button>
+                  <button
+                    onClick={handleAskClaude}
+                    className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-white/[0.06] py-2.5 text-[13px] font-medium text-white/70 active:scale-[0.98] transition-transform"
+                  >
+                    <MessageCircleQuestion className="h-3.5 w-3.5" />
+                    Ask Claude
+                  </button>
+                </div>
+              )}
             </div>
-          </div>
 
-          {/* Follow-up input */}
-          <div className="border-t border-white/[0.06] px-3 py-2 flex items-center gap-1.5">
-            <input
-              value={followUp}
-              onChange={(e) => setFollowUp(e.target.value)}
-              onKeyDown={(e) => { if (e.key === "Enter") handleFollowUpSubmit(); }}
-              placeholder="Follow-up..."
-              className="flex-1 bg-transparent text-[12px] text-white/70 placeholder:text-white/30 outline-none"
-            />
-            <VoiceInputButton
-              onTranscribed={(text) => setFollowUp((prev) => (prev ? `${prev} ${text}` : text))}
-              className="h-7 w-7"
-            />
-            <button
-              onClick={handleFollowUpSubmit}
-              disabled={!followUp.trim()}
-              className="text-green-400 disabled:text-white/20"
-            >
-              <MessageCircleQuestion className="h-3.5 w-3.5" />
-            </button>
-            <button onClick={dismiss} className="text-white/30 hover:text-white/60 ml-1">
-              <X className="h-3.5 w-3.5" />
-            </button>
-          </div>
-        </div>
+            {/* Loading */}
+            {explaining && (
+              <div className="flex items-center gap-2 px-5 py-6 text-white/50 text-[14px]">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Explaining...
+              </div>
+            )}
+
+            {/* Explanation content */}
+            {explanation && (
+              <>
+                <div ref={scrollRef} className="flex-1 overflow-y-auto px-5 py-4">
+                  <div className="prose prose-sm prose-invert max-w-none
+                    prose-p:text-[14px] prose-p:leading-[1.8] prose-p:text-white/70
+                    prose-strong:text-white prose-strong:font-semibold
+                    prose-code:bg-white/[0.06] prose-code:text-green-400 prose-code:px-1 prose-code:rounded">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {explanation}
+                    </ReactMarkdown>
+                  </div>
+                </div>
+
+                {/* Follow-up input */}
+                <div className="flex-shrink-0 border-t border-white/[0.06] px-5 py-3 flex items-center gap-2">
+                  <input
+                    value={followUp}
+                    onChange={(e) => setFollowUp(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter") handleFollowUp(); }}
+                    placeholder="Ask a follow-up..."
+                    className="flex-1 bg-white/[0.04] rounded-full px-4 py-2.5 text-[13px] text-white/70 placeholder:text-white/30 outline-none border border-white/[0.06] focus:border-green-800/50"
+                  />
+                  <VoiceInputButton
+                    onTranscribed={(text) => setFollowUp((prev) => (prev ? `${prev} ${text}` : text))}
+                  />
+                  <button
+                    onClick={handleFollowUp}
+                    disabled={!followUp.trim()}
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-green-600 text-white disabled:opacity-40"
+                  >
+                    <Send className="h-4 w-4" />
+                  </button>
+                </div>
+              </>
+            )}
+          </motion.div>
+        </>
       )}
-    </div>
+    </AnimatePresence>
   );
 }

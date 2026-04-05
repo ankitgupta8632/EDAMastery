@@ -670,25 +670,19 @@ function VideoPlayer({
   src: string;
   transcript?: string;
 }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
   const [currentTime, setCurrentTime] = useState(0);
-  const [captionsOn, setCaptionsOn] = useState(true);
-  const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const transcriptSegments = transcript ? parseVTT(transcript) : [];
+  const transcriptSegments = useMemo(() => transcript ? parseVTT(transcript) : [], [transcript]);
   const hasTranscript = transcriptSegments.length > 0;
 
-  // Generate a Blob URL for native <track> subtitles (works in native fullscreen)
+  // Native track for fullscreen subtitles
   const trackUrl = useMemo(() => {
     if (!transcript) return null;
-    // Ensure it starts with WEBVTT header
     const vtt = transcript.trim().startsWith("WEBVTT") ? transcript : `WEBVTT\n\n${transcript}`;
     const blob = new Blob([vtt], { type: "text/vtt" });
     return URL.createObjectURL(blob);
   }, [transcript]);
 
-  // Clean up Blob URL
   useEffect(() => {
     return () => { if (trackUrl) URL.revokeObjectURL(trackUrl); };
   }, [trackUrl]);
@@ -703,57 +697,14 @@ function VideoPlayer({
     return past.length > 0 ? past[past.length - 1] : null;
   }, [transcriptSegments, hasTranscript, currentTime]);
 
-  // Track fullscreen state
-  useEffect(() => {
-    const handleFsChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
-    };
-    document.addEventListener("fullscreenchange", handleFsChange);
-    return () => document.removeEventListener("fullscreenchange", handleFsChange);
-  }, []);
-
-  const toggleFullscreen = () => {
-    const container = containerRef.current;
-    if (!container) return;
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    } else {
-      container.requestFullscreen();
-    }
-  };
-
   return (
     <div className="rounded-2xl overflow-hidden border border-white/[0.06]">
-      <div className="flex items-center justify-between px-4 py-2.5 bg-white/[0.03]">
-        <div className="flex items-center gap-2">
-          <Video className="h-3.5 w-3.5 text-white/40" />
-          <span className="text-[12px] font-medium uppercase tracking-wider text-white/40">Video Overview</span>
-        </div>
-        <div className="flex items-center gap-2">
-          {hasTranscript && (
-            <button
-              onClick={() => setCaptionsOn(!captionsOn)}
-              className={`text-[11px] font-medium px-2.5 py-1 rounded-full transition-colors ${
-                captionsOn
-                  ? "bg-white/[0.1] text-white/70"
-                  : "bg-white/[0.04] text-white/30"
-              }`}
-            >
-              CC {captionsOn ? "ON" : "OFF"}
-            </button>
-          )}
-          <button
-            onClick={toggleFullscreen}
-            className="text-white/30 hover:text-white/60 transition-colors"
-          >
-            <Maximize2 className="h-3.5 w-3.5" />
-          </button>
-        </div>
+      <div className="flex items-center gap-2 px-4 py-2.5 bg-white/[0.03]">
+        <Video className="h-3.5 w-3.5 text-white/40" />
+        <span className="text-[12px] font-medium uppercase tracking-wider text-white/40">Video Overview</span>
       </div>
-      {/* Video container — this div goes fullscreen, so subtitles stay visible */}
-      <div ref={containerRef} className="relative aspect-video bg-black">
+      <div className="aspect-video bg-black">
         <video
-          ref={videoRef}
           src={src}
           controls
           playsInline
@@ -765,30 +716,11 @@ function VideoPlayer({
             <track kind="subtitles" src={trackUrl} srcLang="en" label="English" default />
           )}
         </video>
-        {/* YouTube-style subtitle overlay — single line */}
-        {captionsOn && activeSegment && (
-          <div className={`absolute inset-x-0 flex justify-center pointer-events-none px-4 ${
-            isFullscreen ? "bottom-20" : "bottom-12"
-          }`}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeSegment.startTime}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="rounded-lg bg-black/80 px-4 py-2 max-w-[90%]"
-              >
-                <p className={`leading-snug text-white font-medium text-center truncate ${
-                  isFullscreen ? "text-[22px]" : "text-[15px] sm:text-[17px]"
-                }`}>
-                  {activeSegment.text}
-                </p>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        )}
       </div>
+      {/* Dynamic caption below video — doesn't overlap video content */}
+      {hasTranscript && (
+        <SyncedCaptions segments={transcriptSegments} currentTime={currentTime} className="px-4 py-3" />
+      )}
     </div>
   );
 }

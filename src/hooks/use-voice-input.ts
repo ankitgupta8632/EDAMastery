@@ -46,8 +46,9 @@ export function useVoiceInput({
       setIsTranscribing(true);
       setError(null);
       try {
+        const ext = blob.type.includes("mp4") ? "m4a" : "webm";
         const formData = new FormData();
-        formData.append("audio", blob, "recording.webm");
+        formData.append("audio", blob, `recording.${ext}`);
 
         const res = await fetch("/api/transcribe", {
           method: "POST",
@@ -107,7 +108,7 @@ export function useVoiceInput({
         }
       };
 
-      recorder.start();
+      recorder.start(1000); // collect data every second
       setIsRecording(true);
 
       // Auto-stop after max duration
