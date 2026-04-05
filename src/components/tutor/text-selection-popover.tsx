@@ -24,13 +24,17 @@ export function TextSelectionPopover({
   const [followUp, setFollowUp] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Listen for text selection in the container
+  // Listen for text selection via document selectionchange (most reliable cross-browser)
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    const handleSelection = () => {
-      setTimeout(() => {
+    let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const handleSelectionChange = () => {
+      // Debounce — selectionchange fires on every cursor move during drag
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
         const selection = window.getSelection();
         if (!selection || selection.isCollapsed) return;
 
@@ -44,15 +48,14 @@ export function TextSelectionPopover({
         setExplanation(null);
         setExplaining(false);
         setFollowUp("");
-      }, 100);
+      }, 300);
     };
 
-    container.addEventListener("mouseup", handleSelection);
-    container.addEventListener("touchend", handleSelection);
+    document.addEventListener("selectionchange", handleSelectionChange);
 
     return () => {
-      container.removeEventListener("mouseup", handleSelection);
-      container.removeEventListener("touchend", handleSelection);
+      document.removeEventListener("selectionchange", handleSelectionChange);
+      if (debounceTimer) clearTimeout(debounceTimer);
     };
   }, [containerRef]);
 
