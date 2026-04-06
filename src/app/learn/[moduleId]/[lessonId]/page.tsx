@@ -24,12 +24,13 @@ import {
   Cpu,
   Video,
   Maximize2,
+  Mic,
 } from "lucide-react";
 import { toast } from "sonner";
 import type { Lesson } from "@/types";
 import { AskClaude } from "@/components/tutor/ask-claude";
 import type { AskClaudeHandle } from "@/components/tutor/ask-claude";
-import { PodcastTutor } from "@/components/tutor/podcast-tutor";
+import { AudioVoiceQA } from "@/components/tutor/audio-voice-qa";
 import { TextSelectionPopover } from "@/components/tutor/text-selection-popover";
 import { parseVTT, getTranscriptContext } from "@/lib/transcript-utils";
 import { SeekBar } from "@/components/media/seekbar";
@@ -609,15 +610,12 @@ function AudioPlayer({
             >
               {speed}x
             </button>
-            {(hasTranscript || currentTime > 5) && !playing ? (
+            {(hasTranscript || currentTime > 5) ? (
               <button
                 onClick={handleAskAboutThis}
                 className="flex items-center gap-1.5 rounded-full bg-green-900/20 border border-green-800/30 px-3.5 py-1.5 text-[12px] font-medium text-green-400 hover:bg-green-900/30 transition-all duration-200 active:scale-[0.95]"
               >
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
-                </span>
+                <Mic className="h-3 w-3" />
                 Ask about this
               </button>
             ) : (
@@ -640,15 +638,19 @@ function AudioPlayer({
             segments={transcriptSegments}
             lessonTitle={lessonTitle}
             onClose={() => setShowFullscreen(false)}
+            onAskHosts={() => {
+              setShowFullscreen(false);
+              handleAskAboutThis();
+            }}
             initialTime={currentTime}
             initialPlaying={playing}
           />
         )}
       </AnimatePresence>
 
-      {/* Podcast Tutor Panel */}
+      {/* Voice Q&A Panel */}
       {showPodcastTutor && (
-        <PodcastTutor
+        <AudioVoiceQA
           lessonId={lessonId}
           lessonTitle={lessonTitle}
           audioTimestamp={pausedTimestamp}
@@ -686,16 +688,6 @@ function VideoPlayer({
   useEffect(() => {
     return () => { if (trackUrl) URL.revokeObjectURL(trackUrl); };
   }, [trackUrl]);
-
-  const activeSegment = useMemo(() => {
-    if (!hasTranscript) return null;
-    const current = transcriptSegments.find(
-      (seg) => seg.startTime <= currentTime && seg.endTime >= currentTime
-    );
-    if (current) return current;
-    const past = transcriptSegments.filter((seg) => seg.endTime <= currentTime);
-    return past.length > 0 ? past[past.length - 1] : null;
-  }, [transcriptSegments, hasTranscript, currentTime]);
 
   return (
     <div className="rounded-2xl overflow-hidden border border-white/[0.06]">

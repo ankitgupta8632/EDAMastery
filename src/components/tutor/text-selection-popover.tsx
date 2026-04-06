@@ -24,22 +24,20 @@ export function TextSelectionPopover({
   const [followUp, setFollowUp] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Listen for text selection via document selectionchange (most reliable cross-browser)
+  // Only capture selection when user FINISHES selecting (mouseup/touchend)
+  // This avoids opening the sheet mid-drag
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    let debounceTimer: ReturnType<typeof setTimeout> | null = null;
-
-    const handleSelectionChange = () => {
-      // Debounce — selectionchange fires on every cursor move during drag
-      if (debounceTimer) clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => {
+    const checkSelection = () => {
+      // Small delay to let browser finalize selection
+      setTimeout(() => {
         const selection = window.getSelection();
         if (!selection || selection.isCollapsed) return;
 
         const text = selection.toString().trim();
-        if (text.length < 3) return;
+        if (text.length < 5) return; // require at least 5 chars to avoid accidental triggers
 
         const anchorNode = selection.anchorNode;
         if (!anchorNode || !container.contains(anchorNode)) return;
@@ -48,18 +46,18 @@ export function TextSelectionPopover({
         setExplanation(null);
         setExplaining(false);
         setFollowUp("");
-      }, 300);
+      }, 150);
     };
 
-    document.addEventListener("selectionchange", handleSelectionChange);
+    container.addEventListener("mouseup", checkSelection);
+    container.addEventListener("touchend", checkSelection);
 
     return () => {
-      document.removeEventListener("selectionchange", handleSelectionChange);
-      if (debounceTimer) clearTimeout(debounceTimer);
+      container.removeEventListener("mouseup", checkSelection);
+      container.removeEventListener("touchend", checkSelection);
     };
   }, [containerRef]);
 
-  // Auto-scroll to bottom when explanation arrives
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -71,7 +69,6 @@ export function TextSelectionPopover({
     setExplanation(null);
     setExplaining(false);
     setFollowUp("");
-    // Clear the browser selection
     window.getSelection()?.removeAllRanges();
   }, []);
 
@@ -129,7 +126,7 @@ export function TextSelectionPopover({
             transition={{ type: "spring", damping: 28, stiffness: 300 }}
             className="fixed inset-x-0 bottom-0 z-[60] flex max-h-[70vh] flex-col rounded-t-2xl bg-[#121212] border-t border-white/[0.06]"
           >
-            {/* Header with selected text */}
+            {/* Header */}
             <div className="flex-shrink-0 border-b border-white/[0.06] px-5 py-4">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
@@ -147,7 +144,6 @@ export function TextSelectionPopover({
                 &ldquo;{selectedText.slice(0, 200)}{selectedText.length > 200 ? "..." : ""}&rdquo;
               </p>
 
-              {/* Action buttons — always visible */}
               {!explanation && !explaining && (
                 <div className="flex items-center gap-2 mt-3">
                   <button
@@ -168,7 +164,6 @@ export function TextSelectionPopover({
               )}
             </div>
 
-            {/* Loading */}
             {explaining && (
               <div className="flex items-center gap-2 px-5 py-6 text-white/50 text-[14px]">
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -176,7 +171,6 @@ export function TextSelectionPopover({
               </div>
             )}
 
-            {/* Explanation content */}
             {explanation && (
               <>
                 <div ref={scrollRef} className="flex-1 overflow-y-auto px-5 py-4">
@@ -190,7 +184,6 @@ export function TextSelectionPopover({
                   </div>
                 </div>
 
-                {/* Follow-up input */}
                 <div className="flex-shrink-0 border-t border-white/[0.06] px-5 py-3 flex items-center gap-2">
                   <input
                     value={followUp}

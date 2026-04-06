@@ -9,6 +9,7 @@ import {
   SkipBack,
   X,
   Minimize2,
+  Mic,
 } from "lucide-react";
 import { SeekBar } from "@/components/media/seekbar";
 import type { TranscriptSegment } from "@/lib/transcript-utils";
@@ -20,6 +21,7 @@ interface FullscreenAudioProps {
   segments: TranscriptSegment[];
   lessonTitle: string;
   onClose: () => void;
+  onAskHosts?: () => void;
   initialTime?: number;
   initialPlaying?: boolean;
 }
@@ -29,6 +31,7 @@ export function FullscreenAudio({
   segments,
   lessonTitle,
   onClose,
+  onAskHosts,
   initialTime = 0,
   initialPlaying = false,
 }: FullscreenAudioProps): React.JSX.Element {
@@ -169,6 +172,23 @@ export function FullscreenAudio({
             if (audioRef.current) audioRef.current.currentTime = time;
           }}
         />
+
+        {/* Ask the Hosts button */}
+        {onAskHosts && (
+          <div className="flex justify-center">
+            <button
+              onClick={() => {
+                const audio = audioRef.current;
+                if (audio && playing) { audio.pause(); setPlaying(false); }
+                onAskHosts();
+              }}
+              className="flex items-center gap-2 rounded-full bg-green-900/20 border border-green-800/30 px-5 py-2.5 text-[13px] font-medium text-green-400 hover:bg-green-900/30 transition-all active:scale-[0.97]"
+            >
+              <Mic className="h-4 w-4" />
+              Ask the Hosts
+            </button>
+          </div>
+        )}
 
         {/* Playback controls */}
         <div className="flex items-center justify-center gap-8">
