@@ -37,4 +37,7 @@ This will scan `public/audio/`, match files to lessons, and update the database.
 ## Exported Files
 - `01-what-is-digital-design.md` — What is Digital Design?
 - `02-combinational-logic-gates.md` — Combinational Logic Gates
+- `03-sequential-logic-flip-flops.md` — Sequential Logic & Flip-Flops
+- `04-finite-state-machines.md` — Finite State Machines
+- `05-clock-domains-metastability.md` — Clock Domains & Metastability
 - `audio-overview-prompt.txt` — Custom prompt for Audio Overview generation
