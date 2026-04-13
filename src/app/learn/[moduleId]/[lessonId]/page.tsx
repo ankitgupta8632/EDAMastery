@@ -34,6 +34,7 @@ import { AudioVoiceQA } from "@/components/tutor/audio-voice-qa";
 import { TextSelectionPopover } from "@/components/tutor/text-selection-popover";
 import { parseVTT, getTranscriptContext } from "@/lib/transcript-utils";
 import { SeekBar } from "@/components/media/seekbar";
+import { Flashcards } from "@/components/lesson/flashcards";
 import { SyncedCaptions } from "@/components/media/synced-captions";
 import { FullscreenAudio } from "@/components/media/fullscreen-audio";
 
@@ -209,7 +210,12 @@ export default function LessonViewerPage() {
               />
             )}
 
-            {/* 3. Infographic — below audio, no box */}
+            {/* 3. Flashcards — horizontally scrollable */}
+            {lesson.flashcardsJson && (
+              <Flashcards flashcardsJson={lesson.flashcardsJson} />
+            )}
+
+            {/* 4. Infographic — below audio, no box */}
             {lesson.infographicUrl && (
               <img
                 src={lesson.infographicUrl}
@@ -672,125 +678,67 @@ function VideoPlayer({
   src: string;
   transcript?: string;
 }) {
-  const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const trackUrlRef = useRef<string | null>(null);
 
-  const transcriptSegments = useMemo(() => transcript ? parseVTT(transcript) : [], [transcript]);
-  const hasTranscript = transcriptSegments.length > 0;
-
-  // Generate VTT blob URL for native <track> (used as fallback in native video fullscreen on iOS)
-  const trackUrl = useMemo(() => {
-    if (!transcript) return null;
-    const vtt = transcript.trim().startsWith("WEBVTT") ? transcript : `WEBVTT\n\n${transcript}`;
-    return URL.createObjectURL(new Blob([vtt], { type: "text/vtt" }));
-  }, [transcript]);
-  useEffect(() => { return () => { if (trackUrl) URL.revokeObjectURL(trackUrl); }; }, [trackUrl]);
-
-  const activeSegment = useMemo(() => {
-    if (!hasTranscript) return null;
-    const current = transcriptSegments.find(
-      (seg) => seg.startTime <= currentTime && seg.endTime >= currentTime
-    );
-    if (current) return current;
-    const past = transcriptSegments.filter((seg) => seg.endTime <= currentTime);
-    return past.length > 0 ? past[past.length - 1] : null;
-  }, [transcriptSegments, hasTranscript, currentTime]);
-
-  // Listen for both standard and webkit fullscreen changes
+  // Attach <track> via DOM API after video mounts — React's declarative <track>
+  // creates blob URL race conditions where cues don't load
   useEffect(() => {
-    const doc = document as unknown as Record<string, unknown>;
-    const onFsChange = () => {
-      setIsFullscreen(!!(document.fullscreenElement ?? doc.webkitFullscreenElement));
-    };
-    document.addEventListener("fullscreenchange", onFsChange);
-    document.addEventListener("webkitfullscreenchange", onFsChange);
-    return () => {
-      document.removeEventListener("fullscreenchange", onFsChange);
-      document.removeEventListener("webkitfullscreenchange", onFsChange);
-    };
-  }, []);
+    const video = videoRef.current;
+    if (!video || !transcript) return;
 
-  const toggleFullscreen = () => {
-    const doc = document as unknown as Record<string, unknown>;
-    const fsEl = document.fullscreenElement ?? doc.webkitFullscreenElement;
-    if (fsEl) {
-      if (document.exitFullscreen) document.exitFullscreen();
-      else if (typeof doc.webkitExitFullscreen === "function") (doc.webkitExitFullscreen as () => void)();
-    } else {
-      const container = containerRef.current;
-      if (!container) return;
-      const el = container as unknown as Record<string, unknown>;
-      if (container.requestFullscreen) {
-        container.requestFullscreen().catch(() => {
-          // iOS Safari: fall back to native video fullscreen
-          const vid = videoRef.current as unknown as Record<string, unknown> | null;
-          if (vid && typeof vid.webkitEnterFullscreen === "function") (vid.webkitEnterFullscreen as () => void)();
-        });
-      } else if (typeof el.webkitRequestFullscreen === "function") {
-        (el.webkitRequestFullscreen as () => void)();
-      } else {
-        const vid = videoRef.current as unknown as Record<string, unknown> | null;
-        if (vid && typeof vid.webkitEnterFullscreen === "function") (vid.webkitEnterFullscreen as () => void)();
+    // Create blob URL
+    const vtt = transcript.trim().startsWith("WEBVTT") ? transcript : `WEBVTT\n\n${transcript}`;
+    const blobUrl = URL.createObjectURL(new Blob([vtt], { type: "text/vtt" }));
+    trackUrlRef.current = blobUrl;
+
+    // Remove any existing tracks
+    const existing = video.querySelectorAll("track");
+    existing.forEach((t) => t.remove());
+
+    // Create and add track element via DOM
+    const track = document.createElement("track");
+    track.kind = "captions";
+    track.label = "English";
+    track.srclang = "en";
+    track.default = true;
+    track.src = blobUrl;
+    video.appendChild(track);
+
+    // Force enable after a tick (let the track load)
+    const enable = () => {
+      for (let i = 0; i < video.textTracks.length; i++) {
+        video.textTracks[i].mode = "showing";
       }
-    }
-  };
+    };
+    track.addEventListener("load", enable);
+    setTimeout(enable, 500);
+
+    return () => {
+      track.removeEventListener("load", enable);
+      track.remove();
+      URL.revokeObjectURL(blobUrl);
+      trackUrlRef.current = null;
+    };
+  }, [transcript]);
 
   return (
     <div className="rounded-2xl overflow-hidden border border-white/[0.06]">
-      <div className="flex items-center justify-between px-4 py-2.5 bg-white/[0.03]">
-        <div className="flex items-center gap-2">
-          <Video className="h-3.5 w-3.5 text-white/40" />
-          <span className="text-[12px] font-medium uppercase tracking-wider text-white/40">Video Overview</span>
-        </div>
-        <button onClick={toggleFullscreen} className="text-white/30 hover:text-white/60 transition-colors">
-          <Maximize2 className="h-3.5 w-3.5" />
-        </button>
+      <div className="flex items-center gap-2 px-4 py-2.5 bg-white/[0.03]">
+        <Video className="h-3.5 w-3.5 text-white/40" />
+        <span className="text-[12px] font-medium uppercase tracking-wider text-white/40">Video Overview</span>
       </div>
-      {/* Container div goes fullscreen — keeps subtitle overlay visible */}
-      <div ref={containerRef} className={`relative bg-black ${isFullscreen ? "flex flex-col h-full w-full" : "aspect-video"}`}>
+      <div className="aspect-video bg-black">
         <video
           ref={videoRef}
           src={src}
           controls
           playsInline
-          className={isFullscreen ? "flex-1 w-full object-contain" : "h-full w-full"}
+          className="h-full w-full"
           preload="metadata"
-          onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
-        >
-          {trackUrl && (
-            <track kind="subtitles" src={trackUrl} srcLang="en" label="English" default />
-          )}
-        </video>
-        {/* Dynamic subtitle overlay — visible in both inline and fullscreen */}
-        {hasTranscript && activeSegment && (
-          <div className={`absolute inset-x-0 flex justify-center pointer-events-none px-4 ${
-            isFullscreen ? "bottom-16" : "bottom-10"
-          }`}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeSegment.startTime}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.15 }}
-                className="rounded-lg bg-black/80 px-5 py-2.5 max-w-[90%]"
-              >
-                <p className={`leading-snug text-white font-medium text-center ${
-                  isFullscreen ? "text-[22px] sm:text-[26px]" : "text-[14px] sm:text-[16px]"
-                }`}>
-                  {activeSegment.text}
-                </p>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        )}
+          crossOrigin="anonymous"
+        />
       </div>
-      {/* Caption below video for inline view */}
-      {hasTranscript && !isFullscreen && (
-        <SyncedCaptions segments={transcriptSegments} currentTime={currentTime} className="px-4 py-3" />
-      )}
     </div>
   );
 }

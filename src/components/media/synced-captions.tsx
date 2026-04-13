@@ -34,7 +34,7 @@ export function SyncedCaptions({ segments, currentTime, className }: SyncedCapti
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -4 }}
           transition={{ duration: 0.2 }}
-          className="rounded-xl bg-white/[0.03] px-4 py-3 text-[14px] leading-relaxed text-white/70 text-center"
+          className="text-[14px] leading-relaxed text-white/70 text-center"
         >
           {activeSegment.text}
         </motion.p>

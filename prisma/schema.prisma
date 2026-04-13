@@ -79,6 +79,7 @@ model Lesson {
   audioUrl          String?
   audioTranscript   String?
   videoTranscript   String? // VTT/SRT subtitles for video
+  flashcardsJson    String? // JSON array of {front, back} flashcards
   infographicUrl    String? // NotebookLM infographic image
   protiumNote       String? // how this applies to Protium
   labUrl            String?

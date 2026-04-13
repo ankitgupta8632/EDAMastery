@@ -3,6 +3,36 @@
 - After any schema change: generate migration SQL → apply to Turso → `npx prisma generate`
 - After content generation: spot-check random lessons via API curl or Turso shell
 
+## Visual Testing with Browser (MANDATORY)
+**Always test UI changes visually before telling the user to test.** Use the NotebookLM skill's patchright/Chrome browser to navigate to the local dev server, take screenshots, and verify.
+
+```python
+# Standard pattern — run from the notebooklm skill directory:
+cd /Users/ankitgupta/.claude/skills/notebooklm && PYTHONUNBUFFERED=1 PYTHONPATH=scripts .venv/bin/python -u -c "
+import sys, time
+sys.path.insert(0, 'scripts')
+from patchright.sync_api import sync_playwright
+from browser_utils import BrowserFactory
+
+pw = sync_playwright().start()
+ctx = BrowserFactory.launch_persistent_context(pw, headless=False)
+page = ctx.new_page()
+page.set_viewport_size({'width': 390, 'height': 844})  # mobile viewport
+page.goto('http://localhost:3001/...', wait_until='domcontentloaded')
+time.sleep(5)
+page.screenshot(path='/tmp/test-screenshot.png')
+# ... interact with page.click(), page.evaluate(), take more screenshots
+ctx.close()
+pw.stop()
+"
+```
+
+- **Read screenshots** with the Read tool before reporting results to user
+- **Mobile viewport** (390x844) since the app is mobile-first
+- **Functional checks**: use `page.evaluate()` to verify DOM state, element counts, text content
+- **Scroll testing**: use `page.evaluate('window.scrollTo(0, Y)')` to check below-fold content
+- **Interactive testing**: click buttons, fill inputs, check state changes via screenshots
+
 ## API Testing
 - Test API routes with curl after changes:
   ```bash
@@ -18,7 +48,7 @@
 After UX changes, verify the complete flow:
 1. Dashboard loads with greeting + Continue Learning card
 2. Click Continue → opens next incomplete lesson with content
-3. Lesson shows: Video → Audio → Text → Protium Note → Infographic → Complete
+3. Lesson shows: Video → Audio → Flashcards → Infographic → Text → Protium Note → Quiz → Complete
 4. Complete lesson → XP toast + Next Lesson button works
 5. Streak updates on dashboard
 6. Nav bar shows correct active state

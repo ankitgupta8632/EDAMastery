@@ -43,6 +43,7 @@ export interface Lesson {
   audioUrl: string | null;
   audioTranscript: string | null;
   videoTranscript: string | null;
+  flashcardsJson: string | null;
   infographicUrl: string | null;
   protiumNote: string | null;
   labUrl: string | null;

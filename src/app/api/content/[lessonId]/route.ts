@@ -123,6 +123,7 @@ export async function GET(
       audioUrl: lesson.audioUrl,
       audioTranscript: lesson.audioTranscript,
       videoTranscript: lesson.videoTranscript ?? null,
+      flashcardsJson: lesson.flashcardsJson ?? null,
       infographicUrl: lesson.infographicUrl ?? null,
       protiumNote: lesson.protiumNote,
       labUrl: lesson.labUrl,
