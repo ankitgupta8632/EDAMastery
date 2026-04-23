@@ -1,0 +1,221 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String   @default("You")
+  createdAt DateTime @default(now())
+
+  profile     Profile?
+  goals       Goal[]
+  links       Link[]
+  feedSessions FeedSession[]
+  interactions Interaction[]
+  streak      Streak?
+  dailySummaries DailySummary[]
+}
+
+model Profile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // JSON: { health: string, career: string, family: string, screenTimeMin: number, tone: "sharp"|"warm"|"playful", mixRatio: number }
+  lifeContext String   @default("{}")
+  updatedAt   DateTime @updatedAt
+}
+
+model Goal {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  category  String   // career|health|family|curiosity|wealth|craft
+  priority  Int      @default(3) // 1..5
+  notes     String   @default("")
+  createdAt DateTime @default(now())
+  archivedAt DateTime?
+
+  @@index([userId])
+}
+
+model Link {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  url          String
+  canonicalUrl String?
+  source       String   // youtube|instagram|web
+  status       String   @default("pending") // pending|processing|ready|failed
+  failReason   String?
+
+  title        String?
+  author       String?
+  description  String?
+  thumbnail    String?
+  durationSec  Int?
+  publishedAt  DateTime?
+
+  transcript   String?   // extracted transcript (YT) or article body (web)
+  rawText      String?   // fallback: any text we could extract
+  language     String?
+
+  vibe         String?   // deep|light — inferred
+  difficulty   String?   // intro|intermediate|advanced
+  summary      String?   // 1-2 sentence Claude summary
+  takeaways    String?   // JSON array of bullets
+
+  addedAt      DateTime  @default(now())
+  processedAt  DateTime?
+
+  topics       LinkTopic[]
+  embedding    Embedding?
+  clusterLinks ClusterLink[]
+  feedItems    FeedItem[]
+  interactions Interaction[]
+
+  @@unique([userId, url])
+  @@index([userId, addedAt])
+  @@index([userId, status])
+}
+
+model Topic {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  aliases   String   @default("[]") // JSON array
+  createdAt DateTime @default(now())
+
+  links     LinkTopic[]
+}
+
+model LinkTopic {
+  linkId    String
+  topicId   String
+  confidence Float   @default(0.5)
+
+  link      Link   @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  topic     Topic  @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@id([linkId, topicId])
+  @@index([topicId])
+}
+
+model Embedding {
+  linkId   String   @id
+  model    String
+  dims     Int
+  vector   Bytes
+  createdAt DateTime @default(now())
+
+  link     Link     @relation(fields: [linkId], references: [id], onDelete: Cascade)
+}
+
+model Cluster {
+  id          String   @id @default(cuid())
+  userId      String
+  label       String
+  summary     String   @default("")
+  topicIds    String   @default("[]") // JSON array of topic ids
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  links       ClusterLink[]
+  deepDive    ClusterDeepDive?
+
+  @@index([userId])
+}
+
+model ClusterLink {
+  clusterId  String
+  linkId     String
+  centrality Float   @default(0.0)
+
+  cluster    Cluster @relation(fields: [clusterId], references: [id], onDelete: Cascade)
+  link       Link    @relation(fields: [linkId], references: [id], onDelete: Cascade)
+
+  @@id([clusterId, linkId])
+  @@index([linkId])
+}
+
+model ClusterDeepDive {
+  id          String   @id @default(cuid())
+  clusterId   String   @unique
+  bodyMarkdown String
+  generatedAt DateTime @default(now())
+
+  cluster     Cluster  @relation(fields: [clusterId], references: [id], onDelete: Cascade)
+}
+
+model FeedSession {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date            String   // YYYY-MM-DD local
+  minutesTarget   Int      @default(60)
+  minutesWatched  Int      @default(0)
+  completedAt     DateTime?
+  createdAt       DateTime @default(now())
+
+  items           FeedItem[]
+
+  @@unique([userId, date])
+}
+
+model FeedItem {
+  id         String   @id @default(cuid())
+  sessionId  String
+  linkId     String
+  position   Int
+  slot       String   // deep|light|serendipity
+  status     String   @default("queued") // queued|opened|completed|skipped|loved
+
+  session    FeedSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  link       Link        @relation(fields: [linkId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, position])
+}
+
+model Interaction {
+  id        String   @id @default(cuid())
+  userId    String
+  linkId    String
+  action    String   // opened|completed|saved|dismissed|loved|not_for_me
+  msWatched Int      @default(0)
+  at        DateTime @default(now())
+
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  link      Link @relation(fields: [linkId], references: [id], onDelete: Cascade)
+
+  @@index([userId, at])
+  @@index([linkId])
+}
+
+model Streak {
+  userId         String   @id
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  current        Int      @default(0)
+  longest        Int      @default(0)
+  lastActiveDate String?  // YYYY-MM-DD
+  graceUsed      Boolean  @default(false)
+  updatedAt      DateTime @updatedAt
+}
+
+model DailySummary {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date        String   // YYYY-MM-DD
+  minutesDeep Int      @default(0)
+  minutesLight Int     @default(0)
+  topicsJson  String   @default("[]")
+  reflection  String?
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, date])
+}
